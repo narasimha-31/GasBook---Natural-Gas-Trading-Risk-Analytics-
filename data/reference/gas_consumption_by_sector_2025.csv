@@ -1,0 +1,6 @@
+sector,bcfd_2025,share_of_total,change_vs_2024,source_url
+Electric power,35.8,0.39,-1.0 Bcf/d (solar + battery displacement),https://www.eia.gov/todayinenergy/detail.php?id=67365
+Industrial,23.6,0.26,+0.2 Bcf/d,https://www.eia.gov/todayinenergy/detail.php?id=67365
+Residential,13.3,0.14,+11% (colder winter),https://www.eia.gov/todayinenergy/detail.php?id=67365
+Commercial,9.9,0.11,+10% (colder winter),https://www.eia.gov/todayinenergy/detail.php?id=67365
+Other (lease/plant/pipeline fuel),9.4,0.10,derived: total 92.0 minus listed sectors,https://www.eia.gov/todayinenergy/detail.php?id=67365

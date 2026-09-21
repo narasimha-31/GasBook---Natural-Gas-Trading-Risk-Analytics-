@@ -1,0 +1,6 @@
+date_start,date_end,event,terminal,feedgas_impact_bcfd,price_note,source_url
+2022-06-08,2023-02-09,Explosion and fire; plant offline ~8 months,Freeport,-2.0,Henry Hub fell $1.27 to $8.16/MMBtu on 2022-06-09,https://www.eia.gov/todayinenergy/detail.php?id=52859
+2024-07-07,2024-07-30,Hurricane Beryl shutdown and power loss; 10+ cargoes cancelled,Freeport,-2.2,~20% of US export capacity offline,https://pgjonline.com/news/2024/july/freeport-lng-gas-flows-hit-near-zero-during-hurricane-beryl
+2025-10-09,,Arbitration: BP wins vs Venture Global over Calcasieu Pass commissioning cargoes (BP seeks >$1B),Calcasieu Pass,,contract-performance risk,https://www.ogj.com/general-interest/news/55322630/bp-wins-arbitration-dispute-against-venture-global-lng
+2026-01-23,2026-01-27,Arctic storm; LNG feedgas cut ~39% from 17.9 Bcf/d; Cove Point and Elba imported cargoes,All,-7.0,Henry Hub day-ahead >$28; Transco Zone 5 $133.85 on 2026-01-26,https://www.argusmedia.com/en/news-and-insights/latest-market-news/2787693-us-lng-becomes-domestic-swing-supply-during-storm
+2026-07-01,2026-08-31,Major maintenance turnaround; two of three trains offline,Freeport,-0.7,feedgas ~1 Bcf/d on 2026-07-10,https://www.spglobal.com/energy/en/news-research/latest-news/natural-gas/071026-freeport-lng-feedgas-deliveries-fall-as-major-maintenance-begins
