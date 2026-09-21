@@ -1,14 +1,28 @@
+# Analysis and risk math
 pandas>=2.2
 numpy>=1.26
 scipy>=1.13
 statsmodels>=0.14
+
+# Data ingest (FRED, EIA, CFTC, Open-Meteo, futures)
 requests>=2.32
 yfinance>=0.2.40
 openpyxl>=3.1
-duckdb>=1.0
+
+# Trade database (PostgreSQL, modeled like an ETRM)
+SQLAlchemy>=2.0
+psycopg[binary]>=3.2
+
+# Deliverables: Excel morning report, charts, PDF findings
+XlsxWriter>=3.2
+matplotlib>=3.9
+
+# Config
 python-dotenv>=1.0
-plotly>=5.22
-streamlit>=1.36
+
+# Research
 jupyter>=1.0
+
+# Quality and controls
 pytest>=8.2
 ruff>=0.5
