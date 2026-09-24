@@ -1,11 +1,11 @@
-"""Q1: Does the standard risk number (VaR) work for natural gas?
+"""Does the standard risk number (VaR) work for natural gas?
 
 Backtests four 1-day 99% VaR models on real Henry Hub daily spot prices (EIA, 1997-today),
 for both a long desk (loses when prices fall) and a short desk (loses in a spike, like a marketer
 that sold fixed-price gas to customers). Also zooms in on five cold-weather price spikes (2021-2026).
 
-Run: python -m gasbook.research.q1_var_backtest
-Outputs (committed so results are visible on GitHub): reports/q1_*.csv, reports/q1_var_backtest.png
+Run: python -m gasbook.research.var_backtest
+Outputs (committed so results are visible on GitHub): reports/var_*.csv, reports/var_backtest.png
 """
 
 import matplotlib
@@ -106,9 +106,9 @@ if __name__ == "__main__":
     summary, storms, series = run(hh)
 
     REPORTS.mkdir(exist_ok=True)
-    summary.round(4).to_csv(REPORTS / "q1_var_backtest_summary.csv", index=False)
-    storms.round(4).to_csv(REPORTS / "q1_var_storm_windows.csv", index=False)
-    plot(series, REPORTS / "q1_var_backtest.png")
+    summary.round(4).to_csv(REPORTS / "var_backtest_summary.csv", index=False)
+    storms.round(4).to_csv(REPORTS / "var_storm_windows.csv", index=False)
+    plot(series, REPORTS / "var_backtest.png")
 
     pd.set_option("display.width", 200)
     print(f"Henry Hub {hh.index.min().date()} -> {hh.index.max().date()}, 1-day {LEVEL:.0%} VaR, {WINDOW}-day window\n")

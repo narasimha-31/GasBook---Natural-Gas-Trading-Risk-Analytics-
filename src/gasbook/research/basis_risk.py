@@ -1,10 +1,10 @@
-"""Q2: Is a Henry Hub hedge really protecting gas bought or sold at other hubs?
+"""Is a Henry Hub hedge really protecting gas bought or sold at other hubs?
 
 Data: EIA-ICE daily hub prices, March 2014 - December 2017 (the only free daily multi-hub data).
 Basis = hub - Henry Hub on the same delivery day, only where both traded. Nothing is filled in or extrapolated.
 
-Run: python -m gasbook.research.q2_basis_risk
-Outputs: reports/q2_*.csv, reports/q2_basis_risk.png
+Run: python -m gasbook.research.basis_risk
+Outputs: reports/basis_*.csv, reports/hedge_effectiveness.csv, reports/basis_risk.png
 """
 
 import matplotlib
@@ -72,11 +72,11 @@ if __name__ == "__main__":
     b, stats, monthly, hedge, season = run(hubs)
 
     REPORTS.mkdir(exist_ok=True)
-    stats.round(4).to_csv(REPORTS / "q2_basis_stats.csv")
-    monthly.round(4).to_csv(REPORTS / "q2_basis_by_month.csv")
-    hedge.to_csv(REPORTS / "q2_hedge_effectiveness.csv")
-    season.round(4).to_csv(REPORTS / "q2_basis_seasonality.csv")
-    plot(b, monthly, REPORTS / "q2_basis_risk.png")
+    stats.round(4).to_csv(REPORTS / "basis_stats.csv")
+    monthly.round(4).to_csv(REPORTS / "basis_by_month.csv")
+    hedge.to_csv(REPORTS / "hedge_effectiveness.csv")
+    season.round(4).to_csv(REPORTS / "basis_seasonality.csv")
+    plot(b, monthly, REPORTS / "basis_risk.png")
 
     pd.set_option("display.width", 220)
     print("Basis vs Henry Hub ($/MMBtu):")
