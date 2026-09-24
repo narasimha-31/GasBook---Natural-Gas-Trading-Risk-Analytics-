@@ -1,0 +1,4 @@
+storage_measure,price_move,weeks,pct_move_per_10bcf,t_stat,p_value,r2
+vs_normal_bcf,move_report_day,532,0.0032,0.0823,0.9344,0.0
+gap_change_bcf,move_report_day,531,-0.0533,-1.954,0.0507,0.0061
+gap_change_bcf,move_next_week,410,0.07,0.756,0.4496,0.0021
