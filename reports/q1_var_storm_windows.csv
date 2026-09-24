@@ -1,0 +1,41 @@
+side,model,event,trading_days,breaches,worst_day,worst_loss_pct,var_that_day_pct,worst_loss_per_1m_usd,var_that_day_per_1m_usd,loss_to_var_ratio
+long,Normal (textbook),Winter Storm Uri (Feb 2021),14,3,2021-02-18,0.6412,0.2013,641240.57,201301.0863,3.1855
+long,Normal (textbook),Winter Storm Elliott (Dec 2022),13,2,2022-12-27,0.3175,0.1575,317482.5175,157541.8984,2.0152
+long,Normal (textbook),Jan 2024 arctic blast,14,1,2024-01-16,0.7538,0.2187,753787.8788,218741.5285,3.446
+long,Normal (textbook),Jan 2025 cold snap,14,1,2025-01-21,0.5538,0.2023,553752.5355,202318.558,2.737
+long,Normal (textbook),Winter Storm Fern (Jan 2026),14,4,2026-01-28,0.4567,0.2318,456660.8493,231764.9742,1.9704
+long,Historical simulation,Winter Storm Uri (Feb 2021),14,3,2021-02-18,0.6412,0.1742,641240.57,174150.7475,3.6821
+long,Historical simulation,Winter Storm Elliott (Dec 2022),13,2,2022-12-27,0.3175,0.1577,317482.5175,157680.3357,2.0135
+long,Historical simulation,Jan 2024 arctic blast,14,1,2024-01-16,0.7538,0.146,753787.8788,146037.6543,5.1616
+long,Historical simulation,Jan 2025 cold snap,14,1,2025-01-21,0.5538,0.1961,553752.5355,196068.8737,2.8243
+long,Historical simulation,Winter Storm Fern (Jan 2026),14,4,2026-01-28,0.4567,0.2129,456660.8493,212888.1136,2.1451
+long,EWMA (RiskMetrics),Winter Storm Uri (Feb 2021),14,1,2021-02-18,0.6412,0.467,641240.57,467017.7685,1.3731
+long,EWMA (RiskMetrics),Winter Storm Elliott (Dec 2022),13,1,2022-12-27,0.3175,0.2407,317482.5175,240692.4849,1.319
+long,EWMA (RiskMetrics),Jan 2024 arctic blast,14,1,2024-01-16,0.7538,0.5632,753787.8788,563178.78,1.3385
+long,EWMA (RiskMetrics),Jan 2025 cold snap,14,1,2025-01-21,0.5538,0.3978,553752.5355,397771.0843,1.3921
+long,EWMA (RiskMetrics),Winter Storm Fern (Jan 2026),14,0,2026-01-28,0.4567,0.5608,456660.8493,560791.1954,0.8143
+long,Filtered historical,Winter Storm Uri (Feb 2021),14,1,2021-02-18,0.6412,0.4959,641240.57,495855.8493,1.2932
+long,Filtered historical,Winter Storm Elliott (Dec 2022),13,1,2022-12-27,0.3175,0.2763,317482.5175,276311.8268,1.149
+long,Filtered historical,Jan 2024 arctic blast,14,1,2024-01-16,0.7538,0.5884,753787.8788,588422.0866,1.281
+long,Filtered historical,Jan 2025 cold snap,14,1,2025-01-21,0.5538,0.4048,553752.5355,404788.7674,1.368
+long,Filtered historical,Winter Storm Fern (Jan 2026),14,0,2026-01-28,0.4567,0.5044,456660.8493,504404.3712,0.9053
+short,Normal (textbook),Winter Storm Uri (Feb 2021),14,3,2021-02-17,1.1078,0.24,1107773.8516,239997.6355,4.6158
+short,Normal (textbook),Winter Storm Elliott (Dec 2022),13,0,2022-12-21,0.161,0.1896,160984.8485,189575.9143,0.8492
+short,Normal (textbook),Jan 2024 arctic blast,14,2,2024-01-12,3.1905,0.148,3190476.1905,148021.701,21.5541
+short,Normal (textbook),Jan 2025 cold snap,14,1,2025-01-17,1.293,0.2194,1293023.2558,219422.4616,5.8928
+short,Normal (textbook),Winter Storm Fern (Jan 2026),14,4,2026-01-23,2.6485,0.2842,2648456.057,284219.6011,9.3183
+short,Historical simulation,Winter Storm Uri (Feb 2021),14,3,2021-02-17,1.1078,0.4355,1107773.8516,435450.8415,2.544
+short,Historical simulation,Winter Storm Elliott (Dec 2022),13,0,2022-12-21,0.161,0.2923,160984.8485,292344.4866,0.5507
+short,Historical simulation,Jan 2024 arctic blast,14,2,2024-01-12,3.1905,0.181,3190476.1905,181015.2771,17.6255
+short,Historical simulation,Jan 2025 cold snap,14,1,2025-01-17,1.293,0.2426,1293023.2558,242602.9013,5.3298
+short,Historical simulation,Winter Storm Fern (Jan 2026),14,4,2026-01-23,2.6485,0.353,2648456.057,352973.5659,7.5033
+short,EWMA (RiskMetrics),Winter Storm Uri (Feb 2021),14,3,2021-02-17,1.1078,0.6141,1107773.8516,614051.008,1.804
+short,EWMA (RiskMetrics),Winter Storm Elliott (Dec 2022),13,0,2022-12-21,0.161,0.3166,160984.8485,316554.4466,0.5086
+short,EWMA (RiskMetrics),Jan 2024 arctic blast,14,2,2024-01-12,3.1905,0.1543,3190476.1905,154251.7128,20.6836
+short,EWMA (RiskMetrics),Jan 2025 cold snap,14,1,2025-01-17,1.293,0.2079,1293023.2558,207921.1629,6.2188
+short,EWMA (RiskMetrics),Winter Storm Fern (Jan 2026),14,3,2026-01-23,2.6485,0.5027,2648456.057,502692.0581,5.2685
+short,Filtered historical,Winter Storm Uri (Feb 2021),14,3,2021-02-17,1.1078,1.0289,1107773.8516,1028885.4428,1.0767
+short,Filtered historical,Winter Storm Elliott (Dec 2022),13,0,2022-12-21,0.161,0.4116,160984.8485,411641.0772,0.3911
+short,Filtered historical,Jan 2024 arctic blast,14,2,2024-01-12,3.1905,0.1883,3190476.1905,188306.2133,16.943
+short,Filtered historical,Jan 2025 cold snap,14,1,2025-01-17,1.293,0.2233,1293023.2558,223309.4958,5.7903
+short,Filtered historical,Winter Storm Fern (Jan 2026),14,2,2026-01-23,2.6485,0.9162,2648456.057,916222.8078,2.8906
