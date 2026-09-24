@@ -71,3 +71,30 @@ def test_empty_response_returns_empty_frame():
     df = eia.fetch_series("x", "y", "daily", session=FakeSession([page([], 0)]), api_key="test")
     assert df.empty
     assert list(df.columns) == ["period", "value"]
+
+
+def test_storage_adds_weekly_change():
+    session = FakeSession([
+        page([
+            {"period": "2026-09-04", "value": "3208"},
+            {"period": "2026-09-11", "value": "3298"},
+        ], 2),
+    ])
+
+    df = eia.fetch_storage_weekly(session=session, api_key="test")
+
+    assert session.calls[0]["facets[series][]"] == "NW2_EPG0_SWO_R48_BCF"
+    assert list(df.columns) == ["week_ending", "storage_bcf", "weekly_change_bcf"]
+    assert df["weekly_change_bcf"].iloc[-1] == 90
+
+
+def test_citygate_returns_one_block_per_region():
+    pages = [page([{"period": "2021-02", "value": "8.5"}], 1) for _ in eia.CITYGATE_SERIES]
+    session = FakeSession(pages)
+
+    df = eia.fetch_citygate_monthly(session=session, api_key="test")
+
+    requested = [c["facets[series][]"] for c in session.calls]
+    assert requested == list(eia.CITYGATE_SERIES.values())
+    assert sorted(df["region"]) == sorted(eia.CITYGATE_SERIES)
+    assert list(df.columns) == ["month", "region", "price_per_mcf"]
