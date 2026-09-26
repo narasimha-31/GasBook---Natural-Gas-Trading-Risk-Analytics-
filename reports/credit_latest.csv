@@ -1,0 +1,9 @@
+date,counterparty_id,name,status,unpaid_sales,unpaid_purchases,future_value,exposure,credit_limit,effective_limit,utilization,alert
+2026-09-22,CP07,LNG Feedgas Buyer G,commissioning,4860320.0,0.0,-30960.0,4829360.0,6000000.0,3000000.0,1.6098,red
+2026-09-22,CP04,Texas Power Generator D,active,8476517.5,0.0,-27680.0,8448837.5,10000000.0,10000000.0,0.8449,amber
+2026-09-22,CP05,Petrochemical Plant E,active,5027472.5,0.0,-5780.0,5021692.5,12000000.0,12000000.0,0.4185,green
+2026-09-22,CP03,Gulf Coast Utility C,active,5216000.0,0.0,-17840.0,5198160.0,15000000.0,15000000.0,0.3465,green
+2026-09-22,CP06,LNG Feedgas Buyer F,active,2448390.0,0.0,-40775.0,2407615.0,20000000.0,20000000.0,0.1204,green
+2026-09-22,CP02,Haynesville Producer B,active,0.0,9076040.0,86320.0,0.0,5000000.0,5000000.0,0.0,green
+2026-09-22,CP01,Permian Producer A,active,0.0,13665837.5,50780.0,0.0,8000000.0,8000000.0,0.0,green
+2026-09-22,CP08,Regional Marketer H,active,5853230.0,15192030.0,92720.0,0.0,3000000.0,3000000.0,0.0,green
