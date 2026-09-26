@@ -76,3 +76,13 @@ def test_front_delivery_month_matches_futures_expiry_everywhere():
         assert m - pd.offsets.BDay(3) >= d
         assert (m - pd.offsets.MonthBegin(1)) - pd.offsets.BDay(3) < d
         assert exp_this == m - pd.offsets.BDay(3)
+
+
+def test_fixed_position_stays_within_limit():
+    days = pd.bdate_range("2025-01-02", "2026-06-30")
+    futures = pd.DataFrame({"date": days, "close": 3.0})
+    t = simulate.generate_trades(futures, start="2025-01-02", end="2026-06-30")
+    fixed = t[t["price_type"] == "fixed"].copy()
+    fixed["qty"] = fixed["volume_mmbtu_per_day"].where(fixed["buy_sell"] == "buy", -fixed["volume_mmbtu_per_day"])
+    running = fixed.groupby("delivery_start")["qty"].cumsum()  # position after each trade, in trade order
+    assert running.abs().max() <= simulate.POSITION_LIMIT

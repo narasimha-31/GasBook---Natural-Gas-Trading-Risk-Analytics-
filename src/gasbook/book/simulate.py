@@ -21,6 +21,9 @@ VOLUMES = [2_500, 5_000, 7_500, 10_000, 15_000, 20_000]  # MMBtu/day, typical ph
 TRADES_PER_DAY = (0, 4)  # inclusive range of new deals per business day
 FIXED_SHARE = 0.6
 DEALER_MARGIN = 0.03  # $/MMBtu: we buy slightly below and sell slightly above the screen price
+# Risk policy: net fixed-price position per delivery month must stay within +/- this many MMBtu/day.
+# A fixed-price deal that would break the limit is done in the opposite direction instead (a hedge).
+POSITION_LIMIT = 25_000
 
 HUBS = pd.DataFrame([{
     "hub_id": HUB,
@@ -67,12 +70,19 @@ def generate_trades(futures: pd.DataFrame, seed: int = SEED, start: str = START,
     rng = np.random.default_rng(seed)
     f = futures.set_index("date")["close"].sort_index().loc[start:end]
     rows = []
+    net_fixed: dict[pd.Timestamp, int] = {}  # net fixed-price MMBtu/day per delivery month
     for trade_date, screen in f.items():
         for _ in range(rng.integers(TRADES_PER_DAY[0], TRADES_PER_DAY[1] + 1)):
             buy = rng.random() < 0.5
-            cp = rng.choice(BUY_FROM if buy else SELL_TO)
             delivery_start = front_delivery_month(trade_date)
             fixed = rng.random() < FIXED_SHARE
+            volume = int(rng.choice(VOLUMES))
+            if fixed:
+                current = net_fixed.get(delivery_start, 0)
+                if abs(current + (volume if buy else -volume)) > POSITION_LIMIT:
+                    buy = not buy  # hedge instead of adding to the open position
+                net_fixed[delivery_start] = current + (volume if buy else -volume)
+            cp = rng.choice(BUY_FROM if buy else SELL_TO)
             margin = -DEALER_MARGIN if buy else DEALER_MARGIN
             rows.append({
                 "trade_date": trade_date,
@@ -81,7 +91,7 @@ def generate_trades(futures: pd.DataFrame, seed: int = SEED, start: str = START,
                 "buy_sell": "buy" if buy else "sell",
                 "delivery_start": delivery_start,
                 "delivery_end": delivery_start + pd.offsets.MonthEnd(0),
-                "volume_mmbtu_per_day": int(rng.choice(VOLUMES)),
+                "volume_mmbtu_per_day": volume,
                 "price_type": "fixed" if fixed else "index",
                 "fixed_price": round(screen + margin, 4) if fixed else None,
                 "index_name": None if fixed else "EIA Henry Hub daily spot",
