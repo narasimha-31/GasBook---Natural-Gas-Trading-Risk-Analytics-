@@ -1,0 +1,6 @@
+storm,peak_spot_multiple,worst_pnl,worst_pnl_day,pnl_at_horizon,counterparties_over_limit,newly_over_limit,total_peak_exposure
+Winter Storm Uri (Feb 2021),6.84,-4445.56,2026-09-24,58373.93,3,"Haynesville Producer B, Permian Producer A",68484215.84
+Winter Storm Elliott (Dec 2022),1.08,-21870.29,2026-09-24,-9098.04,1,none,31289967.69
+Jan 2024 arctic blast,4.8,-1265.45,2026-09-23,70232.73,1,none,30046405.01
+Jan 2025 cold snap,2.39,5617.43,2026-09-24,26647.7,1,none,30243241.15
+Winter Storm Fern (Jan 2026),10.04,35633.99,2026-09-23,391689.54,2,Regional Marketer H,38563190.74
