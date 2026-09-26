@@ -1,0 +1,7 @@
+period,situation,weeks,avg_4wk_price_move_pct,avg_trade_return_pct,win_rate,t_stat,p_value
+2010-2017,funds crowded long -> sell,112,-1.0975,1.0975,0.5893,0.7241,0.469
+2010-2017,funds crowded short -> buy,43,-2.8035,-2.8035,0.3953,-1.2834,0.1994
+2010-2017,not crowded,262,-1.7964,,,,
+2018-2026,funds crowded long -> sell,33,-1.941,1.941,0.5152,0.328,0.7429
+2018-2026,funds crowded short -> buy,52,-0.6189,-0.6189,0.4615,-0.3921,0.695
+2018-2026,not crowded,367,-0.9735,,,,
