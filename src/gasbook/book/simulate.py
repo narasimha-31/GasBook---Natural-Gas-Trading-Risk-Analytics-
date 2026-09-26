@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 
 SEED = 2026
-START, END = "2025-01-02", "2026-08-31"
+START, END = "2025-01-02", "2026-09-22"  # END = latest price date in the data
 HUB = "HH"
 TRADERS = ["Trader 1", "Trader 2", "Trader 3"]
 VOLUMES = [2_500, 5_000, 7_500, 10_000, 15_000, 20_000]  # MMBtu/day, typical physical deal sizes
