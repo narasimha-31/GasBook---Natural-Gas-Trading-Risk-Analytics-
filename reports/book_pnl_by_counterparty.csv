@@ -1,0 +1,9 @@
+counterparty_id,mtm_usd,name,type
+CP03,-2208627.5,Gulf Coast Utility C,utility
+CP05,-1056922.5,Petrochemical Plant E,industrial
+CP06,-1034915.0,LNG Feedgas Buyer F,lng_feedgas
+CP07,-1034225.0,LNG Feedgas Buyer G,lng_feedgas
+CP04,1404222.5,Texas Power Generator D,power
+CP01,2211190.0,Permian Producer A,producer
+CP02,5745757.5,Haynesville Producer B,producer
+CP08,5879365.0,Regional Marketer H,marketer
