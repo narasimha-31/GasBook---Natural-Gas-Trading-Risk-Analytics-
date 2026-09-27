@@ -1,0 +1,11 @@
+measure,value
+price spike events 2010-today,8
+  in the cold season (Nov-Mar),7
+cold-season spikes warned (perfect forecast),5
+cold-season spikes with a watch or warning (perfect forecast),5
+spikes covered by archived forecasts,4
+  warned by real forecasts,1
+warm-season spikes (not weather-driven by cold),1
+warning episodes,17
+  followed by a price spike,6
+  with no spike (false alarms),11

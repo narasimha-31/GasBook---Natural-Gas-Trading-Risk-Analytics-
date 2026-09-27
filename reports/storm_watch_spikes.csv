@@ -1,0 +1,9 @@
+start,end,peak_day,peak_price,price_before,warned_by_weather,watch_or_warning,cold_season,forecast_covered,forecast_notice_days
+2018-01-02,2018-01-02,2018-01-02,6.24,3.69,True,True,True,False,
+2020-10-09,2020-10-09,2020-10-09,2.25,1.49,True,True,False,False,
+2021-02-11,2021-02-18,2021-02-17,23.86,3.76,True,True,True,False,
+2024-01-12,2024-01-12,2024-01-12,13.2,3.15,True,True,True,False,
+2024-11-12,2024-11-12,2024-11-12,1.92,1.21,False,False,True,True,
+2025-01-17,2025-01-17,2025-01-17,9.86,4.3,True,True,True,True,
+2026-01-22,2026-01-29,2026-01-23,30.72,4.96,True,True,True,True,2.0
+2026-02-04,2026-02-04,2026-02-04,6.88,4.11,False,False,True,True,
