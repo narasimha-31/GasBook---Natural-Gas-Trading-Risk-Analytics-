@@ -10,6 +10,7 @@ export const CHAPTERS: ChapterInfo[] = [
   { id: "risk", nav: "Risk", accent: "var(--color-risk)" },
   { id: "hedges", nav: "Hedges", accent: "var(--color-hedge)" },
   { id: "signals", nav: "Signals", accent: "var(--color-signals)" },
+  { id: "forecast", nav: "Forecast", accent: "var(--color-forecast)" },
   { id: "weather", nav: "Weather", accent: "var(--color-weather)" },
   { id: "desk", nav: "The desk", accent: "var(--color-desk)" },
   { id: "context", nav: "Context", accent: "var(--color-context)" },

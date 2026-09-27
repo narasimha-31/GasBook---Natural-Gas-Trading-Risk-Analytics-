@@ -10,6 +10,7 @@
 
 import pandas as pd
 
+from gasbook.ingest.demand_weather import degree_days
 from gasbook.models import storage_features as sf
 from gasbook.models.storage_features import BASE_FEATURES, FEATURES
 
@@ -24,6 +25,15 @@ def combine_weather(observed: pd.DataFrame, forecast: pd.DataFrame) -> pd.DataFr
     have = set(zip(obs["city"], pd.to_datetime(obs["date"])))
     fc = fc[[(c, pd.Timestamp(d)) not in have for c, d in zip(fc["city"], fc["date"])]]
     return pd.concat([obs, fc], ignore_index=True)
+
+
+def shift_forecast_days(weather: pd.DataFrame, degrees_f: float) -> pd.DataFrame:
+    """What if the days still forecast turn out warmer (+) or colder (-)? Observed days stay as they were."""
+    w = weather.copy()
+    ahead = w["source"] == "forecast"
+    w.loc[ahead, "mean_temp_f"] = w.loc[ahead, "mean_temp_f"] + degrees_f
+    w.loc[ahead, ["hdd", "cdd"]] = degree_days(w.loc[ahead, "mean_temp_f"]).to_numpy()
+    return w
 
 
 def error_range(backtest: pd.DataFrame, column: str = "blend", low_q: float = 0.1, high_q: float = 0.9) -> tuple[float, float]:

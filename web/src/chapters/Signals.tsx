@@ -181,8 +181,8 @@ export function Signals() {
         )}
       </div>
       <p className="mt-4 text-[0.9rem] text-ink-faint">
-        Analyst forecasts for the storage number are not free, so “surprise” is measured against last week’s gap from
-        normal, which understates the real effect.
+        Analyst forecasts for the storage number are not free, so “surprise” here is measured against last week’s gap from
+        normal, which understates the real effect. Chapter 5 measures it against a storage forecast instead.
       </p>
     </Chapter>
   );

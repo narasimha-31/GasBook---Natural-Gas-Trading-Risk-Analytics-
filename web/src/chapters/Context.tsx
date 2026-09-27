@@ -119,7 +119,7 @@ export function Context() {
   return (
     <Chapter
       id="context"
-      number={7}
+      number={8}
       accent={accent}
       meta={data?.meta}
       question="Who buys the gas, and where is new demand coming from?"

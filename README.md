@@ -32,10 +32,13 @@ Most small desks protect themselves with futures priced at Henry Hub in Louisian
 **4. The popular trading signals are weak.**
 The government's weekly storage report, published every Thursday, moves the price by about 1% on its most surprising weeks, and the move is over the same day. Betting against hedge funds when they all lean the same way made no reliable money in either of two decades tested. Knowing what not to trade is useful too.
 
-**5. Weather drives the spikes, but the market moves first.**
+**5. The storage number can be forecast from the weather, well enough to matter.**
+I built a model that forecasts Thursday's storage number from temperatures in 12 cities, last week's report, the time of year and holiday weeks. Tested on 246 weeks from 2022 on, each year forecast by a model trained only on the years before it, it missed by 13.5 billion cubic feet on average. The usual starting guess, the five-year average for the same week, missed by 31.7. In winter the gap is wider: 14.5 against 53.9. Measured against the model instead of against last week, a surprise moved the price about 0.27% per 10 billion cubic feet, five times the simple measure. Almost all of that comes from 2016 to 2021; since 2022 the effect is small enough to be chance. Each forecast is saved to a log before the report comes out, so it can be checked later.
+
+**6. Weather drives the spikes, but the market moves first.**
 Severe cold arrived within a week of 5 of the 7 winter price spikes since 2010. But prices move on the forecast, two to four days before the cold actually arrives. Using the forecasts people really had at the time, a simple freeze alert warned before Winter Storm Fern with two days' notice, missed one other spike by a single degree, and raised 11 false alarms out of 17. Useful as a reminder to check the book, not as a price forecast.
 
-**6. Power plants use the most gas, and LNG plants are the fastest-growing buyers.**
+**7. Power plants use the most gas, and LNG plants are the fastest-growing buyers.**
 Power plants burned 35.8 of the 92 billion cubic feet the US used each day in 2025. Plants that cool gas into liquid for export can take about 11.4 billion cubic feet a day today, with about 19.6 more starting up or under construction along the Gulf Coast.
 
 ---
@@ -67,6 +70,7 @@ I built working tools for each problem and wrote down what the results suggest. 
 | Storm bills pile up unpaid | A daily credit monitor that follows each customer's unpaid gas and future deals against its limit | Ask for collateral before storm bills fall due, and watch February as closely as January |
 | Suppliers fail in freezes | Credit checks that count what suppliers owe you in value, not just what customers owe you in cash | Treat producers as credit risks, and make sure every contract allows set-off |
 | Booking mistakes | A checker that pairs every trade with the other side's record without needing a shared ID | Check every trade record the morning after, not at month-end |
+| Thursday's number catches the desk out | A weekly storage forecast with a likely range, a what-if for warmer or colder weather, and a log that scores every forecast | Have a fair estimate before 10:30 on Thursday, and judge the price move against it |
 | Storms arrive with little notice | A freeze and hurricane alert from free 16-day weather forecasts | Use it as a prompt to review the book, not as a trading signal |
 
 ---
@@ -119,7 +123,7 @@ I built working tools for each problem and wrote down what the results suggest. 
 
 ## What is real and what is not
 
-**Real:** every price, storage number, hedge fund position and weather reading; the storms, LNG outages and their dates; the risk, hedge, signal and weather studies.
+**Real:** every price, storage number, hedge fund position and weather reading; the storms, LNG outages and their dates; the risk, hedge, signal, storage forecast and weather studies.
 
 **Simulated:** the 877 trades, the eight counterparties and their credit limits and payment habits, the 114 planted errors, and one supplier default.
 
@@ -128,7 +132,8 @@ I built working tools for each problem and wrote down what the results suggest. 
 - It trades at one hub. Real desks also carry price gaps at places like Waha in West Texas and the Houston Ship Channel, whose daily prices are not free.
 - Free daily prices for other hubs stop at the end of 2017, so the hedge study covers 2014 to 2017 only. Nothing after 2017 is estimated.
 - The desk's margin is set at 3 cents per MMBtu. Real margins at Henry Hub are often thinner.
-- Traders judge the storage report against analyst forecasts, which are not free. The stand-in used here understates how much the report moves prices.
+- Traders judge the storage report against analyst forecasts, which are not free. The stand-ins used here, last week's gap and the storage model, still understate how much the report moves prices.
+- The storage model's holiday and production inputs were added after looking at its misses from 2022 on, so its test score is slightly flattering. The forecast log is the clean test.
 - The weather alert was tested against real archived forecasts on only four spikes since January 2024. That is too few to call it reliable.
 - A failed counterparty is assumed to pay back nothing. Real bankruptcies usually return something, later.
 
@@ -166,9 +171,12 @@ python -m gasbook.ingest.eia_ice
 python -m gasbook.ingest.cftc
 python -m gasbook.ingest.futures
 python -m gasbook.ingest.weather
+python -m gasbook.ingest.demand_weather
 python -m gasbook.book.database
 python -m gasbook.research.var_backtest
 python -m gasbook.research.basis_risk
+python -m gasbook.research.storage_model
+python -m gasbook.research.storage_live
 python -m gasbook.research.storage_report
 python -m gasbook.research.hedge_fund_positioning
 python -m gasbook.research.book_pnl
@@ -195,4 +203,4 @@ It publishes to GitHub Pages automatically on every push.
 
 ## How it is built
 
-Python pulls the data from the public sources above, keeps the simulated trades in a PostgreSQL database laid out like a small trading system, and checks every study with automated tests. A small export step writes the results into files the report reads. The report is a static web page built with React and TypeScript, with charts drawn by ECharts.
+Python pulls the data from the public sources above, keeps the simulated trades in a PostgreSQL database laid out like a small trading system, and checks every study with automated tests. The storage forecast averages a linear regression and a small gradient-boosted tree model (scikit-learn). A small export step writes the results into files the report reads. The report is a static web page built with React and TypeScript, with charts drawn by ECharts.

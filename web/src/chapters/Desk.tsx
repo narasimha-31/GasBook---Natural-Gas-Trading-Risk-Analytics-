@@ -113,7 +113,7 @@ function BookSection() {
   return (
     <Chapter
       id="desk"
-      number={6}
+      number={7}
       accent={accent}
       meta={book?.meta}
       question="Where does the desk’s money actually come from?"
@@ -166,7 +166,7 @@ function BookSection() {
   );
 }
 
-/* ---------- 6b. Credit ---------- */
+/* ---------- 7b. Credit ---------- */
 
 function Settlement({ d }: { d: Credit["default"][number] }) {
   const row = "flex justify-between gap-6 py-1.5";
@@ -233,7 +233,7 @@ function CreditSection() {
   return (
     <Chapter
       id="desk-credit"
-      number="6b"
+      number="7b"
       accent={accent}
       meta={credit?.meta}
       question="Who owes the desk money, and when does it get dangerous?"
@@ -292,7 +292,7 @@ function CreditSection() {
   );
 }
 
-/* ---------- 6c. Storm test ---------- */
+/* ---------- 7c. Storm test ---------- */
 
 function StormSection() {
   const stress = useData<Stress>("stress");
@@ -337,7 +337,7 @@ function StormSection() {
   return (
     <Chapter
       id="desk-storms"
-      number="6c"
+      number="7c"
       accent={accent}
       meta={stress?.meta}
       question="What if one of those storms hit today’s book?"
@@ -380,7 +380,7 @@ function StormSection() {
   );
 }
 
-/* ---------- 6d. Trade matching ---------- */
+/* ---------- 7d. Trade matching ---------- */
 
 function MatchingSection() {
   const m = useData<Matching>("matching");
@@ -406,7 +406,7 @@ function MatchingSection() {
   return (
     <Chapter
       id="desk-matching"
-      number="6d"
+      number="7d"
       accent={accent}
       meta={m?.meta}
       question="Did the desk book every trade the way the other side did?"

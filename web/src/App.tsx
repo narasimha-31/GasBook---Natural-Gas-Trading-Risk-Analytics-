@@ -1,6 +1,7 @@
 import { Header } from "./components/Header";
 import { Context } from "./chapters/Context";
 import { Desk } from "./chapters/Desk";
+import { Forecast } from "./chapters/Forecast";
 import { Intro } from "./chapters/Intro";
 import { Method } from "./chapters/Method";
 import { Hedges } from "./chapters/Hedges";
@@ -19,6 +20,7 @@ export default function App() {
         <Risk />
         <Hedges />
         <Signals />
+        <Forecast />
         <Weather />
         <Desk />
         <Context />

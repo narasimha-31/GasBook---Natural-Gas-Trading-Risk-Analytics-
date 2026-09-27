@@ -86,3 +86,12 @@ def test_update_log_is_idempotent_and_scores_actuals():
     log = live.update_log(log, new.iloc[0:0], reported, pd.Timestamp("2026-10-02"))
     assert log["actual_bcf"].iloc[0] == 85.0
     assert log["miss_bcf"].iloc[0] == pytest.approx(-5.9)
+
+
+def test_shift_forecast_days_leaves_observed_days_alone():
+    w = pd.concat([daily("2026-09-12", "2026-09-14").assign(source="observed", mean_temp_f=70.0),
+                   daily("2026-09-15", "2026-09-16").assign(source="forecast", mean_temp_f=70.0)])
+    out = live.shift_forecast_days(w, -10)
+    assert out.loc[out["source"] == "observed", "mean_temp_f"].eq(70.0).all()
+    ahead = out[out["source"] == "forecast"]
+    assert ahead["mean_temp_f"].eq(60.0).all() and ahead["hdd"].eq(5.0).all() and ahead["cdd"].eq(0.0).all()

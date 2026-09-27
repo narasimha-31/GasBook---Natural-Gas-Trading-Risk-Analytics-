@@ -20,7 +20,7 @@ const SOURCES = [
 const REAL = [
   "Every price, storage number, hedge fund position and weather reading",
   "The five storms, the LNG outages and the dates they happened",
-  "The risk-number test (chapter 2), the hedge test (3), the signals (4) and the weather test (5)",
+  "The risk-number test (chapter 2), the hedge test (3), the signals (4), the storage forecast test (5) and the weather test (6)",
 ];
 
 const SIMULATED = [
@@ -31,12 +31,13 @@ const SIMULATED = [
 ];
 
 const LIMITS = [
-  "The simulated book is cleaner than a real one: no cancelled deals, no pipeline cuts, and every delivery arrives in full. Treat chapter 6 as a best case.",
+  "The simulated book is cleaner than a real one: no cancelled deals, no pipeline cuts, and every delivery arrives in full. Treat chapter 7 as a best case.",
   "It trades at one hub. Real desks also carry basis at places like Waha and Houston Ship Channel, whose daily prices are not free.",
   "Free daily prices for other hubs stop at the end of 2017, so the hedge test (chapter 3) covers 2014–2017 only. Nothing after 2017 is estimated.",
   "The dealer margin is set at 3 cents per MMBtu. Real Henry Hub margins are often thinner.",
-  "Traders judge the storage report against analyst forecasts, which are not free. The stand-in used here understates how much the report moves prices.",
+  "Traders judge the storage report against analyst forecasts, which are not free. The stand-ins used here, last week’s gap and the storage model, still understate how much the report moves prices.",
   "The weather alert was tested against real archived forecasts on only four spikes since January 2024. That is too few to call it reliable.",
+  "The storage model’s holiday and production inputs were added after looking at its misses from 2022 on, so its test score is slightly flattering.",
   "A defaulting counterparty is assumed to pay back nothing. Real bankruptcies usually return something, later.",
 ];
 
@@ -45,7 +46,7 @@ export function Method() {
   return (
     <Chapter
       id="method"
-      number={8}
+      number={9}
       accent={accent}
       question="What is real here, what is simulated, and what are the limits?"
       answer={

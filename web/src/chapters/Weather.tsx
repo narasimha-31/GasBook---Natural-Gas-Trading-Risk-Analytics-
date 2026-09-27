@@ -98,7 +98,7 @@ export function Weather() {
   return (
     <Chapter
       id="weather"
-      number={5}
+      number={6}
       accent={accent}
       meta={data?.meta}
       question="Can the weather forecast warn a desk before a price spike?"

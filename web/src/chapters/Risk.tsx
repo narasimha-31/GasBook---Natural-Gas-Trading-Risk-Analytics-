@@ -145,7 +145,7 @@ export function Risk() {
           </Note>
         </>
       }
-      why="Limits set from this number look safe right up to the day they fail. Pair it with storm tests (chapter 6) instead of trusting it alone."
+      why="Limits set from this number look safe right up to the day they fail. Pair it with storm tests (chapter 7) instead of trusting it alone."
       details={
         yearOption && (
           <div>

@@ -146,6 +146,59 @@ def export_storage() -> dict:
     }
 
 
+def export_storage_model() -> dict:
+    nxt = read("storage_next_week.csv")
+    what_if = read("storage_what_if.csv")
+    log = read("storage_forecast_log.csv")
+    scores = read("storage_model_scores.csv")
+    scores = scores[scores["evaluation"] == "retrained each year"].set_index("model")
+    preds = read("storage_model_predictions.csv", parse_dates=["week_ending"])
+    coef = read("storage_model_coefficients.csv").set_index("feature")["bcf_per_unit"]
+    reg = read("storage_report_regression.csv")
+    surprise_groups = read("storage_report_by_model_surprise.csv")
+    storage = pd.read_csv(DATA_RAW / "storage_weekly.csv", parse_dates=["week_ending"]).sort_values("week_ending")
+    last = storage.iloc[-1]
+
+    def slope(sample: str, measure: str) -> dict:
+        row = reg[(reg["sample"] == sample) & (reg["storage_measure"] == measure)
+                  & (reg["price_move"] == "move_report_day")].iloc[0]
+        return {"weeks": int(row["weeks"]), "pct_per_10bcf": clean(row["pct_move_per_10bcf"], 2),
+                "p_value": clean(row["p_value"], 3)}
+
+    model, bench = scores.loc["blend"], scores.loc["bench_5yr_avg"]
+    weather = {r: {"heating": clean(coef[f"hdd_{r}"], 2), "cooling": clean(coef[f"cdd_{r}"], 2)}
+               for r in ["East", "Midwest", "South Central", "Mountain", "Pacific"]}
+    return {
+        "meta": meta("How much gas will Thursday's report show?",
+                     "EIA weekly storage report, monthly LNG exports and production; Open-Meteo weather",
+                     "2010 to today, tested on 2022 to today", False,
+                     "Each test year is forecast by a model trained only on earlier years."),
+        "headline": {
+            "last_week_ending": clean(last["week_ending"]), "last_change_bcf": clean(last["weekly_change_bcf"], 0),
+            "last_storage_bcf": clean(last["storage_bcf"], 0),
+            "model_miss_bcf": clean(model["mae_bcf"], 1), "benchmark_miss_bcf": clean(bench["mae_bcf"], 1),
+            "model_within_10": clean(model["share_within_10bcf"], 2), "test_weeks": int(model["weeks"]),
+        },
+        "next": records(nxt[["week_ending", "report_date", "kind", "forecast_bcf", "low_bcf", "high_bcf",
+                             "forecast_weather_share"]], 2),
+        "what_if": columns(what_if, 1),
+        "log": records(log, 1),
+        "scores": records(scores.loc[["bench_5yr_avg", "bench_last_gap", "blend"],
+                                     ["mae_bcf", "share_within_10bcf", "mae_winter_bcf", "mae_summer_bcf",
+                                      "worst_miss_bcf", "worst_miss_week"]].reset_index(), 2),
+        "history": columns(preds[["week_ending", "actual", "blend", "bench_5yr_avg"]], 1),
+        "weather_effect": weather,
+        "holidays": {k: clean(coef[f"{k}_week"], 0) for k in ["thanksgiving", "christmas", "new_year"]},
+        "surprise": {
+            "groups": records(surprise_groups, 3),
+            "all": slope("model weeks", "model_surprise_bcf"),
+            "simple": slope("model weeks", "gap_change_bcf"),
+            "early": slope("2016-2021", "model_surprise_bcf"),
+            "recent": slope("2022 onward", "model_surprise_bcf"),
+        },
+    }
+
+
 def export_positioning() -> dict:
     summary = read("positioning_summary.csv")
     weeks = read("positioning_weeks.csv", parse_dates=["report_date"])
@@ -291,6 +344,7 @@ def export_context() -> dict:
 
 EXPORTS = {
     "prices": export_prices, "var": export_var, "basis": export_basis, "storage": export_storage,
+    "storage_model": export_storage_model,
     "positioning": export_positioning, "book": export_book, "credit": export_credit, "stress": export_stress,
     "matching": export_matching, "storm_watch": export_storm_watch, "context": export_context,
 }

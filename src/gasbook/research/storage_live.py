@@ -2,7 +2,8 @@
 
 Run any day before Thursday: python -m gasbook.research.storage_live
 (needs: python -m gasbook.ingest.eia, python -m gasbook.research.storage_model)
-Outputs: reports/storage_next_week.csv, reports/storage_forecast_log.csv (appended, scored when actuals arrive)
+Outputs: reports/storage_next_week.csv, reports/storage_forecast_log.csv (appended, scored when actuals arrive),
+         reports/storage_what_if.csv (next report if the forecast days run warmer or colder)
 """
 
 import pandas as pd
@@ -30,12 +31,20 @@ if __name__ == "__main__":
 
     lng = pd.read_csv(DATA_RAW / "lng_exports_monthly.csv", parse_dates=["month"])
     production = pd.read_csv(DATA_RAW / "production_monthly.csv", parse_dates=["month"])
-    result = live.forecast_weeks(storage, weather, lng, production, linear, trees, live.error_range(backtest))
+    miss = live.error_range(backtest)
+    result = live.forecast_weeks(storage, weather, lng, production, linear, trees, miss)
+    what_if = pd.DataFrame([
+        {"shift_f": s, "forecast_bcf": live.forecast_weeks(storage, live.shift_forecast_days(weather, s), lng,
+                                                           production, linear, trees, miss, n_weeks=1)
+         ["forecast_bcf"].iloc[0]}
+        for s in range(-10, 11)
+    ])
 
     log = pd.read_csv(LOG) if LOG.exists() else pd.DataFrame()
     log = live.update_log(log, result, storage, pd.Timestamp.today().normalize())
     REPORTS.mkdir(exist_ok=True)
     result.to_csv(REPORTS / "storage_next_week.csv", index=False)
+    what_if.to_csv(REPORTS / "storage_what_if.csv", index=False)
     log.to_csv(LOG, index=False)
 
     last = storage.sort_values("week_ending").iloc[-1]
