@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/*
+  Printed desk report: serif prose on paper, trading-screen monospace for every number and label.
+  Colors are muted and each has one job:
+  - one accent per chapter, so readers always know where they are
+  - good / watch / act only for status, never decoration
+*/
+@theme {
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --color-paper: #f4efe4;
+  --color-paper-deep: #ebe4d4;
+  --color-ink: #1d2733;
+  --color-ink-soft: #465261;
+  --color-ink-faint: #7d858f;
+  --color-rule: #d6cdb9;
+
+  --color-market: #2f5d8c;
+  --color-risk: #4b4a8f;
+  --color-hedge: #2b7a78;
+  --color-signals: #5e6a71;
+  --color-weather: #b85a17;
+  --color-desk: #7a4e8c;
+  --color-context: #2f7f95;
+
+  --color-good: #3c8d5a;
+  --color-watch: #b98311;
+  --color-act: #b0352a;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--color-paper);
+  background-image: radial-gradient(rgb(29 39 51 / 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small caps-style labels in mono, like a printed form */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Rubber stamp used on status labels (OVER LIMIT, CONFIRMED, SIMULATED) */
+.stamp {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border: 2px solid currentColor;
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 3px;
+  transform: rotate(-2.5deg);
+  white-space: nowrap;
+  opacity: 0.88;
+}
+
+/* Diagonal stripes for anything simulated */
+.simulated-stripes {
+  background-image: repeating-linear-gradient(135deg, rgb(122 78 140 / 0.12) 0 6px, transparent 6px 12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

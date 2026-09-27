@@ -18,3 +18,7 @@ reports/output/
 *.md
 
 docs
+
+# Dashboard build output
+web/node_modules/
+web/dist/
