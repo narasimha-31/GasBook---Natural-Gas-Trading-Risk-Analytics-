@@ -61,7 +61,7 @@ def test_schema_has_all_tables():
     from gasbook.book.database import SCHEMA
 
     sql = SCHEMA.read_text().lower()
-    for table in ("hubs", "counterparties", "trades", "prices"):
+    for table in ("hubs", "counterparties", "trades", "prices", "confirmations"):
         assert f"create table {table}" in sql
 
 

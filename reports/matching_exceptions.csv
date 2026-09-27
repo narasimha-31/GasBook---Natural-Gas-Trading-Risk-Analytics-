@@ -1,0 +1,115 @@
+trade_id,confirm_ref,status,differences,score,issue,trade_date,counterparty_id,buy_sell,volume_mmbtu_per_day,fixed_price,index_adder
+T00004,C-392170-0458,break,price,5,wrong price,2025-01-02,CP07,sell,10000.0,,0.03
+T00013,C-848191-0527,break,delivery,5,wrong delivery,2025-01-13,CP07,sell,2500.0,3.964,
+T00015,C-215186-0504,break,delivery,5,wrong delivery,2025-01-14,CP08,buy,7500.0,,-0.03
+T00023,C-321024-0184,break,volume,5,wrong volume,2025-01-23,CP06,sell,2500.0,3.975,
+T00029,C-459270-0565,break,delivery,5,wrong delivery,2025-01-28,CP04,sell,20000.0,,0.03
+T00070,C-121768-0441,break,delivery,5,wrong delivery,2025-03-10,CP01,buy,10000.0,4.461,
+T00079,C-121160-0700,break,counterparty,5,wrong counterparty,2025-03-17,CP05,sell,10000.0,,0.03
+T00100,C-774246-0279,break,counterparty,5,wrong counterparty,2025-04-01,CP01,buy,7500.0,,-0.03
+T00103,C-189221-0741,break,price,5,wrong price,2025-04-04,CP04,sell,2500.0,3.867,
+T00104,C-612446-0299,break,volume,5,wrong volume,2025-04-04,CP08,buy,5000.0,,-0.03
+T00108,C-369920-0482,break,counterparty,5,wrong counterparty,2025-04-11,CP01,buy,15000.0,,-0.03
+T00111,C-720901-0666,break,counterparty,5,wrong counterparty,2025-04-15,CP08,buy,5000.0,,-0.03
+T00125,C-337260-0118,break,delivery,5,wrong delivery,2025-04-25,CP01,buy,20000.0,,-0.03
+T00140,C-709524-0428,break,counterparty,5,wrong counterparty,2025-05-05,CP08,sell,7500.0,,0.03
+T00150,C-818867-0372,break,counterparty,5,wrong counterparty,2025-05-15,CP07,sell,2500.0,,0.03
+T00172,C-672399-0742,break,price,5,wrong price,2025-06-02,CP07,sell,15000.0,3.724,
+T00204,C-586238-0543,break,price,5,wrong price,2025-06-17,CP08,buy,2500.0,3.821,
+T00221,C-207760-0531,break,price,5,wrong price,2025-06-27,CP01,buy,15000.0,3.709,
+T00232,C-361386-0770,break,delivery,5,wrong delivery,2025-07-04,CP06,sell,2500.0,3.417,
+T00252,C-441213-0575,break,delivery,5,wrong delivery,2025-07-16,CP08,buy,20000.0,3.521,
+T00256,C-984034-0807,break,volume,5,wrong volume,2025-07-21,CP02,buy,7500.0,3.295,
+T00280,C-140779-0180,break,price,5,wrong price,2025-08-06,CP01,buy,7500.0,3.047,
+T00292,C-842620-0123,break,price,5,wrong price,2025-08-12,CP07,sell,5000.0,2.838,
+T00293,C-202543-0808,break,volume,5,wrong volume,2025-08-13,CP03,sell,2500.0,,0.03
+T00297,C-418978-0680,break,price,5,wrong price,2025-08-14,CP03,sell,2500.0,2.871,
+T00363,C-960699-0623,break,counterparty,5,wrong counterparty,2025-09-30,CP08,sell,15000.0,3.333,
+T00371,C-971479-0462,break,price,5,wrong price,2025-10-02,CP01,buy,2500.0,,-0.03
+T00379,C-858823-0600,break,counterparty,5,wrong counterparty,2025-10-09,CP01,buy,2500.0,,-0.03
+T00380,C-362971-0751,break,price,5,wrong price,2025-10-13,CP08,sell,20000.0,,0.03
+T00388,C-450011-0196,break,price,5,wrong price,2025-10-16,CP04,sell,2500.0,2.968,
+T00397,C-510512-0691,break,volume,5,wrong volume,2025-10-24,CP02,buy,5000.0,,-0.03
+T00402,C-558141-0552,break,price,5,wrong price,2025-10-27,CP01,buy,2500.0,,-0.03
+T00404,C-202066-0445,break,delivery,5,wrong delivery,2025-10-29,CP02,buy,5000.0,3.346,
+T00408,C-965613-0031,break,volume,5,wrong volume,2025-10-30,CP01,buy,20000.0,,-0.03
+T00415,C-668467-0605,break,counterparty,5,wrong counterparty,2025-11-07,CP01,buy,10000.0,,-0.03
+T00428,C-831366-0560,break,counterparty,5,wrong counterparty,2025-11-20,CP07,sell,7500.0,4.504,
+T00430,C-151985-0846,break,price,5,wrong price,2025-11-21,CP08,sell,15000.0,4.61,
+T00446,C-708324-0493,break,delivery,5,wrong delivery,2025-12-01,CP02,buy,7500.0,,-0.03
+T00453,C-750020-0812,break,delivery,5,wrong delivery,2025-12-04,CP05,sell,20000.0,5.093,
+T00459,C-949990-0472,break,price,5,wrong price,2025-12-05,CP06,sell,20000.0,,0.03
+T00479,C-284398-0145,break,volume,5,wrong volume,2025-12-18,CP06,sell,20000.0,,0.03
+T00490,C-177767-0177,break,delivery,5,wrong delivery,2025-12-26,CP06,sell,5000.0,4.396,
+T00493,C-648710-0141,break,price,5,wrong price,2025-12-31,CP07,sell,5000.0,,0.03
+T00522,C-721872-0726,break,counterparty,5,wrong counterparty,2026-01-16,CP08,buy,10000.0,3.073,
+T00530,C-767624-0214,break,volume,5,wrong volume,2026-01-23,CP01,buy,5000.0,,-0.03
+T00540,C-728809-0556,break,price,5,wrong price,2026-01-30,CP08,buy,15000.0,,-0.03
+T00541,C-145975-0238,break,delivery,5,wrong delivery,2026-01-30,CP08,buy,2500.0,,-0.03
+T00555,C-221034-0466,break,price,5,wrong price,2026-02-10,CP01,buy,20000.0,3.085,
+T00570,C-403149-0266,break,counterparty,5,wrong counterparty,2026-02-19,CP06,sell,5000.0,3.026,
+T00573,C-637445-0288,break,delivery,5,wrong delivery,2026-02-23,CP01,buy,20000.0,,-0.03
+T00595,C-742670-0831,break,counterparty,5,wrong counterparty,2026-03-09,CP01,buy,7500.0,3.09,
+T00596,C-312757-0796,break,volume,5,wrong volume,2026-03-10,CP08,buy,5000.0,,-0.03
+T00603,C-985080-0495,break,volume,5,wrong volume,2026-03-12,CP01,buy,7500.0,3.203,
+T00606,C-792378-0642,break,volume,5,wrong volume,2026-03-16,CP08,sell,10000.0,3.053,
+T00618,C-636197-0308,break,counterparty,5,wrong counterparty,2026-03-24,CP07,sell,7500.0,,0.03
+T00625,C-671401-0629,break,price,5,wrong price,2026-03-26,CP02,buy,20000.0,2.969,
+T00634,C-281926-0067,break,counterparty,5,wrong counterparty,2026-04-02,CP04,sell,20000.0,,0.03
+T00646,C-831365-0761,break,volume,5,wrong volume,2026-04-14,CP01,buy,10000.0,,-0.03
+T00662,C-895233-0130,break,volume,5,wrong volume,2026-04-22,CP08,sell,10000.0,2.752,
+T00675,C-666591-0832,break,price,5,wrong price,2026-05-04,CP03,sell,20000.0,2.897,
+T00681,C-985087-0567,break,counterparty,5,wrong counterparty,2026-05-05,CP02,buy,10000.0,2.758,
+T00718,C-177830-0483,break,price,5,wrong price,2026-06-04,CP02,buy,10000.0,3.306,
+T00720,C-623090-0313,break,delivery,5,wrong delivery,2026-06-05,CP05,sell,5000.0,,0.03
+T00725,C-532942-0030,break,counterparty,5,wrong counterparty,2026-06-08,CP08,sell,2500.0,,0.03
+T00728,C-652151-0360,break,counterparty,5,wrong counterparty,2026-06-09,CP05,sell,10000.0,,0.03
+T00736,C-786792-0210,break,price,5,wrong price,2026-06-16,CP08,buy,5000.0,3.209,
+T00752,C-222043-0287,break,counterparty,5,wrong counterparty,2026-06-26,CP02,buy,5000.0,,-0.03
+T00753,C-764815-0331,break,price,5,wrong price,2026-06-29,CP04,sell,10000.0,,0.03
+T00762,C-234459-0438,break,volume,5,wrong volume,2026-07-02,CP02,buy,10000.0,3.166,
+T00765,C-247584-0111,break,delivery,5,wrong delivery,2026-07-07,CP04,sell,15000.0,3.295,
+T00775,C-446473-0548,break,volume,5,wrong volume,2026-07-14,CP01,buy,10000.0,,-0.03
+T00795,C-951630-0452,break,volume,5,wrong volume,2026-07-28,CP07,sell,7500.0,2.692,
+T00804,C-299985-0306,break,price,5,wrong price,2026-08-04,CP01,buy,10000.0,2.652,
+T00808,C-307030-0302,break,volume,5,wrong volume,2026-08-05,CP03,sell,2500.0,2.718,
+T00813,C-424308-0333,break,price,5,wrong price,2026-08-10,CP02,buy,20000.0,2.764,
+T00814,C-263819-0588,break,volume,5,wrong volume,2026-08-10,CP01,buy,15000.0,,-0.03
+T00815,C-759617-0767,break,counterparty,5,wrong counterparty,2026-08-12,CP02,buy,20000.0,,-0.03
+T00848,C-353720-0212,break,counterparty,5,wrong counterparty,2026-09-01,CP02,buy,10000.0,,-0.03
+T00856,C-946839-0352,break,volume,5,wrong volume,2026-09-08,CP01,buy,20000.0,,-0.03
+T00869,C-262717-0735,break,counterparty,5,wrong counterparty,2026-09-18,CP02,buy,5000.0,2.882,
+T00056,,missing_confirm,,0,no confirmation received,2025-02-13,CP04,sell,5000.0,,0.03
+T00066,,missing_confirm,,0,no confirmation received,2025-02-28,CP02,buy,2500.0,3.804,
+T00116,,missing_confirm,,0,no confirmation received,2025-04-23,CP02,buy,2500.0,,-0.03
+T00167,,missing_confirm,,0,no confirmation received,2025-05-29,CP08,sell,2500.0,,0.03
+T00186,,missing_confirm,,0,no confirmation received,2025-06-09,CP01,buy,15000.0,3.605,
+T00195,,missing_confirm,,0,no confirmation received,2025-06-12,CP08,buy,20000.0,3.462,
+T00200,,missing_confirm,,0,no confirmation received,2025-06-16,CP08,buy,5000.0,3.718,
+T00267,,missing_confirm,,0,no confirmation received,2025-07-28,CP03,sell,15000.0,,0.03
+T00291,,missing_confirm,,0,no confirmation received,2025-08-12,CP04,sell,15000.0,2.838,
+T00294,,missing_confirm,,0,no confirmation received,2025-08-13,CP06,sell,7500.0,,0.03
+T00315,,missing_confirm,,0,no confirmation received,2025-08-27,CP01,buy,15000.0,2.837,
+T00354,,missing_confirm,,0,no confirmation received,2025-09-23,CP04,sell,2500.0,2.883,
+T00390,,missing_confirm,,0,no confirmation received,2025-10-17,CP07,sell,7500.0,3.038,
+T00468,,missing_confirm,,0,no confirmation received,2025-12-11,CP07,sell,20000.0,4.261,
+T00488,,missing_confirm,,0,no confirmation received,2025-12-26,CP08,buy,15000.0,4.336,
+T00649,,missing_confirm,,0,no confirmation received,2026-04-15,CP01,buy,15000.0,2.58,
+T00665,,missing_confirm,,0,no confirmation received,2026-04-23,CP02,buy,2500.0,,-0.03
+T00686,,missing_confirm,,0,no confirmation received,2026-05-08,CP03,sell,2500.0,,0.03
+T00689,,missing_confirm,,0,no confirmation received,2026-05-13,CP06,sell,10000.0,2.894,
+T00750,,missing_confirm,,0,no confirmation received,2026-06-26,CP03,sell,15000.0,,0.03
+T00767,,missing_confirm,,0,no confirmation received,2026-07-07,CP01,buy,7500.0,3.235,
+T00773,,missing_confirm,,0,no confirmation received,2026-07-10,CP07,sell,7500.0,2.97,
+T00782,,missing_confirm,,0,no confirmation received,2026-07-16,CP01,buy,20000.0,2.828,
+T00799,,missing_confirm,,0,no confirmation received,2026-07-29,CP01,buy,5000.0,,-0.03
+T00817,,missing_confirm,,0,no confirmation received,2026-08-12,CP06,sell,5000.0,,0.03
+,C-484729-0011,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-243532-0090,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-743819-0181,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-322901-0412,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-947767-0416,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-489063-0471,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-125903-0525,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-118358-0581,unknown_trade,,0,confirmation for a trade we don't have,,,,,,
+,C-650800-0835,unknown_trade,,0,confirmation for a trade we don't have,,,,,,

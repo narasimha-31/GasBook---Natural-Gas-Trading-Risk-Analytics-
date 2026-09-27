@@ -1,6 +1,7 @@
 -- GasBook trade database, laid out like a small ETRM (trading system).
--- Dimension tables: hubs, counterparties. Fact tables: trades, prices.
+-- Dimension tables: hubs, counterparties. Fact tables: trades, prices, confirmations.
 
+DROP TABLE IF EXISTS confirmations;
 DROP TABLE IF EXISTS trades;
 DROP TABLE IF EXISTS prices;
 DROP TABLE IF EXISTS counterparties;
@@ -51,6 +52,22 @@ CREATE TABLE prices (
     PRIMARY KEY (price_date, series)
 );
 
+-- Counterparty confirmations as received (simulated). Their own reference, their side of the deal.
+CREATE TABLE confirmations (
+    confirm_ref             TEXT PRIMARY KEY,
+    counterparty_id         TEXT NOT NULL REFERENCES counterparties (counterparty_id),
+    their_side              TEXT NOT NULL CHECK (their_side IN ('buy', 'sell')),
+    trade_date              DATE NOT NULL,
+    confirm_date            DATE NOT NULL,
+    delivery_start          DATE NOT NULL,
+    delivery_end            DATE NOT NULL,
+    volume_mmbtu_per_day    INTEGER NOT NULL CHECK (volume_mmbtu_per_day > 0),
+    price_type              TEXT NOT NULL CHECK (price_type IN ('fixed', 'index')),
+    fixed_price             NUMERIC(10, 4),
+    index_adder             NUMERIC(10, 4)
+);
+
 CREATE INDEX trades_trade_date_idx ON trades (trade_date);
 CREATE INDEX trades_counterparty_idx ON trades (counterparty_id);
 CREATE INDEX trades_delivery_idx ON trades (delivery_start, delivery_end);
+CREATE INDEX confirmations_trade_date_idx ON confirmations (trade_date);

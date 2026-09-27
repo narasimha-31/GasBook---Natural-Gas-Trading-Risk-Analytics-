@@ -1,0 +1,8 @@
+error,planted,found,found_on_identical_twin
+counterparty,22,22,0
+delivery,15,15,0
+missing,25,24,1
+price,24,24,0
+volume,19,18,1
+unknown,9,9,0
+false alarms (clean trades flagged),0,0,0

@@ -13,7 +13,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine import URL, Engine
 
 from gasbook import config  # noqa: F401  (loads .env)
-from gasbook.book import simulate
+from gasbook.book import confirmations, simulate
 from gasbook.config import DATA_RAW
 
 SCHEMA = Path(__file__).with_name("schema.sql")
@@ -55,13 +55,14 @@ def load_prices() -> pd.DataFrame:
     ], ignore_index=True)
 
 
-def build(engine: Engine, trades: pd.DataFrame, prices: pd.DataFrame) -> None:
+def build(engine: Engine, trades: pd.DataFrame, prices: pd.DataFrame, confirms: pd.DataFrame) -> None:
     with engine.begin() as conn:
         conn.exec_driver_sql(SCHEMA.read_text())
         simulate.HUBS.to_sql("hubs", conn, if_exists="append", index=False)
         simulate.COUNTERPARTIES.to_sql("counterparties", conn, if_exists="append", index=False)
         prices.to_sql("prices", conn, if_exists="append", index=False, chunksize=5_000)
         trades.to_sql("trades", conn, if_exists="append", index=False, chunksize=5_000)
+        confirms.to_sql("confirmations", conn, if_exists="append", index=False, chunksize=5_000)
 
 
 if __name__ == "__main__":
@@ -69,9 +70,10 @@ if __name__ == "__main__":
     trades = simulate.generate_trades(futures)
     ensure_database()
     engine = create_engine(connection_url())
-    build(engine, trades, load_prices())
+    confirms, _answer_key = confirmations.generate(trades, list(simulate.COUNTERPARTIES["counterparty_id"]))
+    build(engine, trades, load_prices(), confirms)
     with engine.connect() as conn:
         counts = {t: conn.execute(text(f"SELECT COUNT(*) FROM {t}")).scalar()
-                  for t in ("hubs", "counterparties", "prices", "trades")}
+                  for t in ("hubs", "counterparties", "prices", "trades", "confirmations")}
     print("Loaded:", counts)
     print(trades.groupby(["buy_sell", "price_type"]).size().rename("trades").to_string())
