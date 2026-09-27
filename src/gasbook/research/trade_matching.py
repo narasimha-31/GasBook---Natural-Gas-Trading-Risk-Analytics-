@@ -37,7 +37,7 @@ def load(engine) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
 def exception_label(row) -> str:
     if row["status"] == "break":
         return "wrong " + row["differences"]
-    return {"missing_confirm": "no confirmation received", "unknown_trade": "confirmation for a trade we don't have"}[
+    return {"missing_confirm": "no confirmation received", "unknown_trade": "confirmation for a trade not in the book"}[
         row["status"]]
 
 

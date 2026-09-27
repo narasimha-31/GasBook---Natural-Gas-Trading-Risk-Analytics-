@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { Chapter } from "../components/Chapter";
 import { YearRange } from "../components/Controls";
-import { EChart, INK_SOFT, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, axisBase, tooltipBase, valueAxisBase, yName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -54,11 +54,11 @@ export function Prices() {
 
   const option = useMemo<Option>(() => ({
     animationDuration: 900,
-    grid: { left: 40, right: 12, top: 16, bottom: 32 },
+    grid: { left: 40, right: 12, top: 32, bottom: 32 },
     tooltip: { ...tooltipBase, trigger: "item",
       formatter: (p: { name: string; value: number }) => `${p.name}: ${p.value} day${p.value === 1 ? "" : "s"}` },
     xAxis: { type: "category", data: MONTHS, ...axisBase },
-    yAxis: { type: "value", minInterval: 1, ...valueAxisBase },
+    yAxis: { type: "value", minInterval: 1, ...valueAxisBase, ...yName("Days") },
     series: [{
       type: "bar",
       barWidth: "58%",

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { Chapter } from "../components/Chapter";
 import { YearRange } from "../components/Controls";
-import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, yName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -49,14 +49,15 @@ export function Signals() {
     const labels = ["Much less gas than expected", "", "", "", "Much more gas than expected"];
     return {
       animationDuration: 800,
-      grid: { left: 44, right: 8, top: 16, bottom: 44 },
+      grid: { left: 44, right: 8, top: 32, bottom: 44 },
       tooltip: { ...tooltipBase, trigger: "item",
         formatter: (p: { dataIndex: number; value: number }) =>
           `${storage.groups[p.dataIndex].weeks} weeks<br/>average move ${p.value.toFixed(2)}%` },
       xAxis: { type: "category", ...axisBase, data: storage.groups.map((_, i) => labels[i] || `${i + 1}`),
         axisLabel: { ...axisBase.axisLabel, fontFamily: "Source Serif 4, serif", fontSize: 11, width: 80,
           overflow: "break", interval: 0 } },
-      yAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
+      yAxis: { type: "value", ...valueAxisBase, ...yName("Futures price move that day"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       series: [{
         type: "bar", barWidth: "55%",
         data: storage.groups.map((g) => ({ value: g.avg_move_report_day_pct,
@@ -75,11 +76,12 @@ export function Signals() {
       periods.map((p) => trades.find((t) => t.period === p && t.situation === situation)?.avg_trade_return_pct ?? 0);
     return {
       animationDuration: 800,
-      grid: { left: 44, right: 8, top: 40, bottom: 28 },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 12, color: INK_SOFT } },
+      grid: { left: 44, right: 8, top: 84, bottom: 28 },
+      legend: { top: 0, left: 0, itemGap: 8, orient: "vertical", textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 12, color: INK_SOFT } },
       tooltip: { ...tooltipBase, axisPointer: { type: "shadow" }, valueFormatter: (v: number) => `${v.toFixed(1)}%` },
       xAxis: { type: "category", data: periods, ...axisBase },
-      yAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
+      yAxis: { type: "value", ...valueAxisBase, ...yName("Average return over 4 weeks"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       series: [
         { name: "Sell when funds are crowded long", type: "bar", itemStyle: { color: SLATE },
           data: rule("funds crowded long -> sell") },
@@ -99,11 +101,12 @@ export function Signals() {
     const idx = years.map((y, i) => (y >= from && y <= to ? i : -1)).filter((i) => i >= 0);
     return {
       animationDuration: 700,
-      grid: { left: 44, right: 12, top: 12, bottom: 28 },
+      grid: { left: 44, right: 12, top: 28, bottom: 28 },
       tooltip: { ...tooltipBase, valueFormatter: (v: number) => `${v.toFixed(1)}% of open contracts` },
       xAxis: { type: "category", data: idx.map((i) => pos.net_position.report_date[i]), ...axisBase,
         axisLabel: { ...axisBase.axisLabel, formatter: (v: string) => v.slice(0, 4) } },
-      yAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
+      yAxis: { type: "value", ...valueAxisBase, ...yName("% of all open contracts (+ long, − short)"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       series: [{ type: "line", showSymbol: false, lineStyle: { color: SLATE, width: 1.2 },
         areaStyle: { color: "rgba(94,106,113,0.08)" }, data: idx.map((i) => pos.net_position.net_pct[i]),
         markLine: { symbol: "none", silent: true, lineStyle: { color: INK_SOFT, width: 0.8 }, label: { show: false },
@@ -131,11 +134,12 @@ export function Signals() {
       notes={
         <>
           <Note term="Storage report">
-            Every Thursday at 10:30 a.m. the government reports how much gas went into or out of storage last week.
+            Every Thursday at 10:30 a.m. the US Energy Information Administration (EIA) reports how much gas went
+            into or out of storage the week before.
           </Note>
           <Note term="Hedge fund positioning">
-            Every Friday the CFTC publishes how many futures hedge funds hold. Traders watch for everyone crowding
-            one side.
+            Every Friday the Commodity Futures Trading Commission (CFTC) publishes how many gas futures hedge funds
+            hold. Traders watch for everyone crowding one side.
           </Note>
         </>
       }

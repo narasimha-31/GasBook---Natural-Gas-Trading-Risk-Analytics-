@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { Chapter } from "../components/Chapter";
-import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, xName, yName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -58,10 +58,10 @@ export function Hedges() {
     const hubs = [...data.hubs].sort((a, b) => b.r2_monthly - a.r2_monthly);
     return {
       animationDuration: 900,
-      grid: { left: 8, right: 56, top: 24, bottom: 28, containLabel: true },
+      grid: { left: 8, right: 56, top: 24, bottom: 44, containLabel: true },
       tooltip: { ...tooltipBase, trigger: "item",
         formatter: (p: { name: string; value: number }) => `${p.name}: removes ${Math.round(p.value)}% of the risk` },
-      xAxis: { type: "value", max: 100, splitNumber: narrow ? 2 : 5, ...valueAxisBase,
+      xAxis: { type: "value", max: 100, splitNumber: narrow ? 2 : 5, ...valueAxisBase, ...xName("Share of price risk removed"),
         axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       yAxis: { type: "category", inverse: true, ...axisBase,
         data: hubs.map((h) => (narrow ? h.hub : `${h.hub}  (${REGION[h.hub]})`)),
@@ -92,18 +92,19 @@ export function Hedges() {
     ];
     return {
       animationDuration: 900,
-      grid: { left: 44, right: 12, top: 40, bottom: 28 },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
+      grid: { left: 44, right: 12, top: narrow ? 88 : 64, bottom: 28 },
+      legend: { top: 0, left: 0, itemGap: 22, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, valueFormatter: (v: number) => `$${v.toFixed(2)}` },
       xAxis: { type: "category", data: months, ...axisBase },
-      yAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "${value}" } },
+      yAxis: { type: "value", ...valueAxisBase, ...yName("$ per MMBtu above Henry Hub"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: "${value}" } },
       series: show.map((s) => ({
         name: s.hub, type: "line", symbol: "circle", symbolSize: 5,
         lineStyle: { color: s.color, width: 1.6 }, itemStyle: { color: s.color },
         data: data.by_month.map((m) => m[s.hub]),
       })),
     };
-  }, [data]);
+  }, [data, narrow]);
 
   const h = data?.headline;
   const alg = data?.hubs.find((x) => x.hub === "Algonquin Citygates");

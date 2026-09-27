@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { Chapter } from "../components/Chapter";
-import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, yName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -72,12 +72,13 @@ export function Weather() {
     });
     return {
       animationDuration: 800,
-      grid: { left: 40, right: 12, top: 36, bottom: 28 },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
+      grid: { left: 40, right: 12, top: 64, bottom: 28 },
+      legend: { top: 0, left: 0, itemGap: 22, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, valueFormatter: (v: number) => `${v.toFixed(0)}°F` },
       xAxis: { type: "category", data: f.map((d) => d.date), ...axisBase,
         axisLabel: { ...axisBase.axisLabel, formatter: (v: string) => day(v).replace(/, \d{4}$/, "") } },
-      yAxis: { type: "value", min: 0, ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}°" } },
+      yAxis: { type: "value", min: 0, ...valueAxisBase, ...yName("Overnight low, °F"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}°" } },
       series: [
         { name: "Midland, Permian gas fields", type: "line", symbol: "none", lineStyle: line("#b85a17"),
           itemStyle: { color: "#b85a17" },

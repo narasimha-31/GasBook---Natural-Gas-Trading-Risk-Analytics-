@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { Chapter } from "../components/Chapter";
 import { Toggle, YearRange } from "../components/Controls";
-import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, xName, yName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -65,12 +65,12 @@ export function Risk() {
     const pct = (v: number) => Math.round(v * 100);
     return {
       animationDuration: 900,
-      grid: { left: 8, right: 48, top: narrow ? 64 : 36, bottom: 28, containLabel: true },
-      legend: { top: 0, left: 0, itemWidth: 12, itemHeight: 10,
+      grid: { left: 8, right: 48, top: narrow ? 64 : 36, bottom: 44, containLabel: true },
+      legend: { top: 0, left: 0, itemGap: 22, itemWidth: 12, itemHeight: 10,
         textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, trigger: "axis", axisPointer: { type: "shadow" },
         valueFormatter: (v: number) => `${v}% of the position` },
-      xAxis: { type: "value", splitNumber: narrow ? 3 : 7, ...valueAxisBase,
+      xAxis: { type: "value", splitNumber: narrow ? 3 : 7, ...valueAxisBase, ...xName("Loss as % of the position"),
         axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       yAxis: { type: "category", data: events, inverse: true, ...axisBase,
         axisLabel: { ...axisBase.axisLabel, fontFamily: "Source Serif 4, serif", fontSize: narrow ? 12 : 13,
@@ -95,12 +95,12 @@ export function Risk() {
       data.yearly.find((r) => r.side === side && r.model === model && r.year === y);
     return {
       animationDuration: 700,
-      grid: { left: 36, right: 12, top: narrow ? 60 : 36, bottom: 28 },
-      legend: { top: 0, left: 0, itemWidth: 12, itemHeight: 10,
+      grid: { left: 36, right: 12, top: narrow ? 84 : 60, bottom: 28 },
+      legend: { top: 0, left: 0, itemGap: 22, itemWidth: 12, itemHeight: 10,
         textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, axisPointer: { type: "shadow" } },
       xAxis: { type: "category", data: sel.map(String), ...axisBase },
-      yAxis: { type: "value", minInterval: 1, ...valueAxisBase },
+      yAxis: { type: "value", minInterval: 1, ...valueAxisBase, ...yName("Days") },
       series: [
         { name: "Textbook misses", type: "bar", itemStyle: { color: FAINT },
           data: sel.map((y) => get(TEXTBOOK, y)?.breaches ?? null) },
@@ -135,7 +135,7 @@ export function Risk() {
       notes={
         <>
           <Note term="Value at Risk (VaR)">
-            A daily estimate: “on 99 days out of 100, we lose less than this.” Most desks report it every morning.
+            A daily estimate: “on 99 days out of 100, the loss should be smaller than this.” Most desks report it every morning.
           </Note>
           <Note term="Sold ahead">
             A desk that promised gas to customers at a fixed price. It loses when prices jump.

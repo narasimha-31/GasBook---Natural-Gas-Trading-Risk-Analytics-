@@ -39,6 +39,22 @@ export const valueAxisBase = {
   splitLine: { show: true, lineStyle: { color: RULE, type: "dashed" as const } },
 };
 
+/** Axis title above a vertical value axis (charts using it keep their legend on the right). */
+export const yName = (text: string) => ({
+  name: text,
+  nameLocation: "end" as const,
+  nameGap: 12,
+  nameTextStyle: { color: INK_SOFT, fontFamily: MONO, fontSize: 10, align: "left" as const },
+});
+
+/** Axis title centred under a horizontal value axis. */
+export const xName = (text: string) => ({
+  name: text,
+  nameLocation: "middle" as const,
+  nameGap: 28,
+  nameTextStyle: { color: INK_SOFT, fontFamily: MONO, fontSize: 10 },
+});
+
 export const tooltipBase = {
   trigger: "axis" as const,
   backgroundColor: "#ffffff",
@@ -51,27 +67,38 @@ interface Props {
   option: Option;
   height?: number | string;
   ariaLabel: string;
+  /** Merge updates into the chart instead of replacing it (keeps the user's zoom while labels change). */
+  merge?: boolean;
+  /** Called with the first and last visible category index after the user zooms or drags. */
+  onZoom?: (start: number, end: number) => void;
 }
 
 /** Thin React wrapper around ECharts (SVG renderer: crisp on paper and print). */
-export function EChart({ option, height = 420, ariaLabel }: Props) {
+export function EChart({ option, height = 420, ariaLabel, merge = false, onZoom }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const chart = useRef<echarts.ECharts | null>(null);
+  const zoomHandler = useRef(onZoom);
+  zoomHandler.current = onZoom;
 
   useEffect(() => {
     if (!ref.current) return;
-    chart.current = echarts.init(ref.current, undefined, { renderer: "svg" });
-    const resize = new ResizeObserver(() => chart.current?.resize());
+    const c = echarts.init(ref.current, undefined, { renderer: "svg" });
+    chart.current = c;
+    c.on("datazoom", () => {
+      const dz = (c.getOption() as { dataZoom?: { startValue?: number; endValue?: number }[] }).dataZoom?.[0];
+      if (dz?.startValue != null && dz.endValue != null) zoomHandler.current?.(dz.startValue, dz.endValue);
+    });
+    const resize = new ResizeObserver(() => c.resize());
     resize.observe(ref.current);
     return () => {
       resize.disconnect();
-      chart.current?.dispose();
+      c.dispose();
     };
   }, []);
 
   useEffect(() => {
-    chart.current?.setOption(option, true);
-  }, [option]);
+    chart.current?.setOption(option, { notMerge: !merge, lazyUpdate: true });
+  }, [option, merge]);
 
   return <div ref={ref} style={{ height, width: "100%" }} role="img" aria-label={ariaLabel} />;
 }

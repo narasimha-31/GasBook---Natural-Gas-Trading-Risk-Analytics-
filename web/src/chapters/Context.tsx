@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { Chapter } from "../components/Chapter";
-import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, xName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -70,10 +70,11 @@ export function Context() {
     const rows = data.gas_use_2025;
     return {
       animationDuration: 800,
-      grid: { left: 8, right: 64, top: 8, bottom: 24, containLabel: true },
+      grid: { left: 8, right: 64, top: 8, bottom: 44, containLabel: true },
       tooltip: { ...tooltipBase, trigger: "item",
         formatter: (p: { dataIndex: number }) => `${rows[p.dataIndex].sector}<br/>${rows[p.dataIndex].change_vs_2024}` },
-      xAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, show: !narrow } },
+      xAxis: { type: "value", ...valueAxisBase, ...xName("Billion cubic feet per day (Bcf/d)"),
+        axisLabel: { ...valueAxisBase.axisLabel, show: !narrow } },
       yAxis: { type: "category", inverse: true, ...axisBase, data: rows.map((r) => r.sector.replace(" (lease/plant/pipeline fuel)", "")),
         axisLabel: { ...axisBase.axisLabel, fontFamily: "Source Serif 4, serif", fontSize: 13 } },
       series: [{ type: "bar", barWidth: "55%",
@@ -97,10 +98,11 @@ export function Context() {
     );
     return {
       animationDuration: 800,
-      grid: { left: 20, right: 16, top: narrow ? 64 : 40, bottom: 24, containLabel: true },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
+      grid: { left: 20, right: 16, top: narrow ? 64 : 40, bottom: 44, containLabel: true },
+      legend: { top: 0, left: 0, itemGap: 22, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, axisPointer: { type: "shadow" }, valueFormatter: (v: number) => `${v.toFixed(2)} Bcf/d` },
-      xAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}" } },
+      xAxis: { type: "value", ...valueAxisBase, ...xName("Export capacity, Bcf/d"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}" } },
       yAxis: { type: "category", inverse: true, data: companies, ...axisBase,
         axisLabel: { ...axisBase.axisLabel, fontFamily: "Source Serif 4, serif", fontSize: narrow ? 11 : 13,
           width: narrow ? 110 : 220, overflow: "break" } },

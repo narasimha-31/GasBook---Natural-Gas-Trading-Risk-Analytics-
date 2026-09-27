@@ -1,16 +1,17 @@
 import { Chapter } from "../components/Chapter";
 import { accentOf } from "../lib/chapters";
 
-const REPO = "https://github.com/narasimha-31/GasBook---Natural-Gas-Trading-Risk-Analytics-";
+const REPO = "https://github.com/narasimha-31/GasBook---Natural_Gas_Trading_Risk_Analytics";
 
 const SOURCES = [
   { name: "Henry Hub daily spot price, weekly storage, state prices", org: "US Energy Information Administration (EIA) API",
     url: "https://www.eia.gov/opendata/" },
-  { name: "Daily prices at seven other hubs, 2014–2017", org: "EIA, republished from ICE",
+  { name: "Daily prices at seven other hubs, 2014–2017", org: "EIA, republished from the Intercontinental Exchange (ICE)",
     url: "https://www.eia.gov/electricity/wholesale/" },
-  { name: "Hedge fund positions in natural gas futures", org: "CFTC Commitments of Traders",
+  { name: "Hedge fund positions in natural gas futures", org: "Commodity Futures Trading Commission (CFTC)",
     url: "https://publicreporting.cftc.gov/" },
-  { name: "Front-month natural gas futures", org: "NYMEX, via Yahoo Finance", url: "https://finance.yahoo.com/quote/NG=F/" },
+  { name: "Front-month natural gas futures", org: "New York Mercantile Exchange (NYMEX), via Yahoo Finance",
+    url: "https://finance.yahoo.com/quote/NG=F/" },
   { name: "Observed weather, archived and live forecasts", org: "Open-Meteo", url: "https://open-meteo.com/" },
   { name: "LNG plant capacity", org: "EIA U.S. liquefaction capacity, 2026 Q2",
     url: "https://www.eia.gov/naturalgas/data.php" },
@@ -34,7 +35,7 @@ const LIMITS = [
   "It trades at one hub. Real desks also carry basis at places like Waha and Houston Ship Channel, whose daily prices are not free.",
   "Free daily prices for other hubs stop at the end of 2017, so the hedge test (chapter 3) covers 2014–2017 only. Nothing after 2017 is estimated.",
   "The dealer margin is set at 3 cents per MMBtu. Real Henry Hub margins are often thinner.",
-  "Traders judge the storage report against analyst forecasts, which are not free. Our stand-in understates how much the report moves prices.",
+  "Traders judge the storage report against analyst forecasts, which are not free. The stand-in used here understates how much the report moves prices.",
   "The weather alert was tested against real archived forecasts on only four spikes since January 2024. That is too few to call it reliable.",
   "A defaulting counterparty is assumed to pay back nothing. Real bankruptcies usually return something, later.",
 ];

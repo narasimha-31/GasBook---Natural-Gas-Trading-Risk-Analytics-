@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { Chapter } from "../components/Chapter";
-import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, type Option } from "../components/EChart";
+import { EChart, INK_SOFT, MONO, axisBase, tooltipBase, valueAxisBase, xName, yName, type Option } from "../components/EChart";
 import { Note } from "../components/Note";
 import { accentOf } from "../lib/chapters";
 import { useData, type DataFile } from "../lib/data";
@@ -63,12 +63,13 @@ function BookSection() {
     });
     return {
       animationDuration: 1000,
-      grid: { left: 52, right: 16, top: narrow ? 64 : 40, bottom: 28 },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
+      grid: { left: 52, right: 16, top: narrow ? 92 : 64, bottom: 28 },
+      legend: { top: 0, left: 0, itemGap: 22, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, valueFormatter: (v: number) => money(v) },
       xAxis: { type: "category", data: d.date, ...axisBase,
         axisLabel: { ...axisBase.axisLabel, formatter: (v: string) => v.slice(0, 7) } },
-      yAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: (v: number) => money(v, 0) } },
+      yAxis: { type: "value", ...valueAxisBase, ...yName("Running total, $"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: (v: number) => money(v, 0) } },
       series: [
         { name: "Margin locked in on new deals", type: "line", showSymbol: false, lineStyle: { color: PURPLE, width: 2 },
           itemStyle: { color: PURPLE },
@@ -93,12 +94,13 @@ function BookSection() {
     });
     return {
       animationDuration: 800,
-      grid: { left: 52, right: 12, top: narrow ? 64 : 40, bottom: 44 },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
+      grid: { left: 52, right: 12, top: narrow ? 92 : 64, bottom: 44 },
+      legend: { top: 0, left: 0, itemGap: 22, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, axisPointer: { type: "shadow" }, valueFormatter: (v: number) => money(v) },
       xAxis: { type: "category", data: idx.map((i) => day(d.date[i]).replace(/, \d{4}$/, "")), ...axisBase,
         axisLabel: { ...axisBase.axisLabel, rotate: 45 } },
-      yAxis: { type: "value", ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: (v: number) => money(v, 0) } },
+      yAxis: { type: "value", ...valueAxisBase, ...yName("Profit or loss that day, $"),
+        axisLabel: { ...valueAxisBase.axisLabel, formatter: (v: number) => money(v, 0) } },
       series: [
         series("New deals", "new_deals", PURPLE),
         series("Forward price move", "forward_price_move", "#2f5d8c"),
@@ -181,8 +183,8 @@ function Settlement({ d }: { d: Credit["default"][number] }) {
       </div>
       <div className="num mt-4 border-t border-rule pt-2 text-[0.88rem]">
         <div className={row}><span>Cost to replace their gas at storm prices</span><span>{money(d.future_value, 2)}</span></div>
-        <div className={row}><span>Less: what we still owed them (set-off)</span><span className="whitespace-nowrap">−{money(d.unpaid_purchases, 2)}</span></div>
-        <div className={`${row} border-t border-ink/40 font-semibold`}><span>Our loss</span><span>{money(d.loss, 2)}</span></div>
+        <div className={row}><span>Less: what the desk still owed them (set-off)</span><span className="whitespace-nowrap">−{money(d.unpaid_purchases, 2)}</span></div>
+        <div className={`${row} border-t border-ink/40 font-semibold`}><span>The desk’s loss</span><span>{money(d.loss, 2)}</span></div>
         <div className={`${row} text-act`}><span>Loss if the contract had no set-off</span><span>{money(d.loss_without_setoff, 2)}</span></div>
       </div>
     </div>
@@ -203,11 +205,11 @@ function CreditSection() {
     const top = Math.max(120, ...values.filter((v): v is number => v != null)) * 1.05;
     return {
       animationDuration: 700,
-      grid: { left: 48, right: 16, top: 16, bottom: 28 },
+      grid: { left: 48, right: 16, top: 32, bottom: 28 },
       tooltip: { ...tooltipBase, valueFormatter: (v: number) => `${v.toFixed(0)}% of limit` },
       xAxis: { type: "category", data: dates, ...axisBase,
         axisLabel: { ...axisBase.axisLabel, formatter: (v: string) => v.slice(0, 7) } },
-      yAxis: { type: "value", max: Math.ceil(top / 50) * 50, ...valueAxisBase,
+      yAxis: { type: "value", max: Math.ceil(top / 50) * 50, ...valueAxisBase, ...yName("Share of credit limit used"),
         axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       series: [{
         type: "line", showSymbol: false, lineStyle: { color: PURPLE, width: 1.8 }, data: values,
@@ -234,7 +236,7 @@ function CreditSection() {
       number="6b"
       accent={accent}
       meta={credit?.meta}
-      question="Who owes us money, and when does it get dangerous?"
+      question="Who owes the desk money, and when does it get dangerous?"
       answer={
         h && (
           <p>
@@ -249,14 +251,14 @@ function CreditSection() {
       notes={
         <>
           <Note term="Credit limit">
-            The most a customer is allowed to owe us. Amber from 75%, red over 100%.
+            The most a customer is allowed to owe the desk. Amber from 75%, red over 100%.
           </Note>
           <Note term="NAESB contract">
             The standard US gas contract. Gas delivered in one month is paid for on the 25th of the next, so up to
             about 55 days of gas can be owed at once.
           </Note>
           <Note term="Set-off">
-            If a counterparty fails, what we owe them can be kept against what they owe us.
+            If a counterparty fails, what the desk owes them can be kept against what they owe the desk.
           </Note>
         </>
       }
@@ -280,8 +282,8 @@ function CreditSection() {
         <div className="text-[0.98rem] leading-relaxed text-ink-soft md:col-span-5">
           <p className="font-semibold text-ink">When a supplier fails in a storm</p>
           <p className="mt-2">
-            We had bought gas at fixed prices from this producer. When it stopped delivering mid-storm, replacing that
-            gas cost far more. But we still owed it for gas it had already delivered, and the contract let us keep that
+            The desk had bought gas at fixed prices from this producer. When it stopped delivering mid-storm, replacing
+            that gas cost far more. But the desk still owed it for gas already delivered, and the contract let it keep that
             money. Without that clause the desk would have lost {h && money(h.loss_without_setoff, 2)}.
           </p>
         </div>
@@ -305,10 +307,10 @@ function StormSection() {
     const rows = stress.credit.filter((r) => r.storm === storm).sort((a, b) => b.peak_utilization - a.peak_utilization);
     return {
       animationDuration: 600,
-      grid: { left: 8, right: 48, top: narrow ? 64 : 48, bottom: 28, containLabel: true },
-      legend: { top: 0, left: 0, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
+      grid: { left: 8, right: 48, top: narrow ? 64 : 48, bottom: 44, containLabel: true },
+      legend: { top: 0, left: 0, itemGap: 22, textStyle: { fontFamily: "Source Serif 4, serif", fontSize: 13, color: INK_SOFT } },
       tooltip: { ...tooltipBase, axisPointer: { type: "shadow" }, valueFormatter: (v: number) => `${v}% of limit` },
-      xAxis: { type: "value", splitNumber: narrow ? 3 : 6, ...valueAxisBase,
+      xAxis: { type: "value", splitNumber: narrow ? 3 : 6, ...valueAxisBase, ...xName("Share of credit limit used"),
         axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}%" } },
       yAxis: { type: "category", inverse: true, ...axisBase,
         data: rows.map((r) => (r.alert === "defaulted" ? `${r.name} (defaulted)` : r.name)),
@@ -342,8 +344,8 @@ function StormSection() {
       answer={
         <p>
           The profit barely moves, because the position limit keeps the book close to flat. The damage shows up in
-          credit: in a replay of Winter Storm Uri, a supplier we bought fixed-price gas from jumps from nothing owed to
-          several times its limit, because its gas is suddenly worth far more than we agreed to pay.
+          credit: in a replay of Winter Storm Uri, a supplier the desk bought fixed-price gas from jumps from nothing owed to
+          several times its limit, because its gas is suddenly worth far more than the agreed price.
         </p>
       }
       notes={
@@ -390,8 +392,8 @@ function MatchingSection() {
     const rows = [...m.by_issue].sort((a, b) => b.count - a.count);
     return {
       animationDuration: 700,
-      grid: { left: 8, right: 40, top: 8, bottom: 24, containLabel: true },
-      xAxis: { type: "value", minInterval: 5, ...valueAxisBase,
+      grid: { left: 8, right: 40, top: 8, bottom: narrow ? 24 : 44, containLabel: true },
+      xAxis: { type: "value", minInterval: 5, ...valueAxisBase, ...(narrow ? {} : xName("Number of trades")),
         axisLabel: { ...valueAxisBase.axisLabel, show: !narrow } },
       yAxis: { type: "category", inverse: true, data: rows.map((r) => r.issue), ...axisBase,
         axisLabel: { ...axisBase.axisLabel, fontFamily: "Source Serif 4, serif", fontSize: 13 } },
@@ -407,11 +409,11 @@ function MatchingSection() {
       number="6d"
       accent={accent}
       meta={m?.meta}
-      question="Did we book every trade the way the other side did?"
+      question="Did the desk book every trade the way the other side did?"
       answer={
         h && (
           <p>
-            We planted <strong className="num text-ink">{h.planted}</strong> errors in the counterparties’ confirmations.
+            I planted <strong className="num text-ink">{h.planted}</strong> errors in the counterparties’ confirmations.
             The matcher flagged all <strong className="num text-good">{h.raised}</strong>, with{" "}
             <strong className="num text-ink">{h.false_alarms}</strong> false alarms. Two landed on an identical twin
             trade: same day, same customer, same price, so no system could tell them apart without a shared deal ID.
@@ -420,11 +422,11 @@ function MatchingSection() {
       }
       notes={
         <Note term="Confirmation">
-          The other side’s written record of a trade. Checking every one against our own booking is the first job of
+          The other side’s written record of a trade. Checking every one against the desk’s own booking is the first job of
           a desk analyst each morning.
         </Note>
       }
-      why="One wrong volume or price flows straight into the invoice and the P&L. Catching it the morning after the trade costs a phone call; catching it at month-end costs a dispute."
+      why="One wrong volume or price flows straight into the invoice and the profit and loss. Catching it the morning after the trade costs a phone call; catching it at month-end costs a dispute."
     >
       <p className="text-[0.95rem] text-ink-soft italic">The morning exception queue: trades that need a phone call</p>
       <div className="mt-4 border-y border-rule">

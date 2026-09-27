@@ -58,7 +58,7 @@ def export_prices() -> dict:
     spikes = read("storm_watch_spikes.csv", parse_dates=["start", "end", "peak_day"])
     top = hh.nlargest(1, "henry_hub").iloc[0]
     return {
-        "meta": meta("Henry Hub daily spot price", "EIA API (series RNGWHHD)",
+        "meta": meta("Henry Hub daily spot price", "US Energy Information Administration (EIA), daily Henry Hub spot price",
                      f"{hh['date'].min():%Y-%m-%d} to {hh['date'].max():%Y-%m-%d}", False),
         "headline": {"record_price": clean(top["henry_hub"], 2), "record_day": clean(top["date"]),
                      "latest_price": clean(hh["henry_hub"].iloc[-1], 2), "latest_day": clean(hh["date"].iloc[-1])},
@@ -86,7 +86,8 @@ def export_var() -> dict:
                            "days": int(row["size"]), "expected": round(row["size"] * 0.01, 1)})
     return {
         "meta": meta("Does the standard risk number (VaR) work for gas?",
-                     "EIA Henry Hub daily spot; 1-day 99% VaR, 250-day window", "1997 to today", False),
+                     "EIA daily Henry Hub spot price; one-day 99% value at risk (VaR) from the previous 250 trading days",
+                     "1997 to today", False),
         "headline": {
             "worst_miss_ratio": clean(worst["loss_to_var_ratio"], 1), "worst_miss_event": worst["event"],
             "worst_miss_forecast_pct": clean(worst["var_that_day_pct"] * 100, 0),
@@ -108,7 +109,8 @@ def export_basis() -> dict:
     alg = stats.set_index("hub").loc["Algonquin Citygates"]
     h = hedge.set_index("hub")
     return {
-        "meta": meta("Does a Henry Hub hedge protect gas at other hubs?", "EIA-ICE daily hub prices",
+        "meta": meta("Does a Henry Hub hedge protect gas at other hubs?",
+                     "EIA daily hub prices, republished from the Intercontinental Exchange (ICE)",
                      "March 2014 to December 2017 (the only free daily multi-hub data)", False,
                      "Basis = hub price minus Henry Hub on the same day, only where both traded."),
         "headline": {
@@ -132,7 +134,8 @@ def export_storage() -> dict:
     main = reg[(reg["storage_measure"] == "gap_change_bcf") & (reg["price_move"] == "move_report_day")].iloc[0]
     return {
         "meta": meta("Does Thursday's storage report move the price?",
-                     "EIA weekly storage; NYMEX front-month futures", "2015 to today", False,
+                     "EIA weekly storage report; front-month futures on the New York Mercantile Exchange (NYMEX)",
+                     "2015 to today", False,
                      "Analyst forecasts are not free, so 'unexpected' is measured against last week's gap from normal."),
         "headline": {"p_value": clean(main["p_value"], 3), "most_bearish_group_move_pct": clean(
             groups["avg_move_report_day_pct"].iloc[-1], 2), "weeks": int(main["weeks"])},
@@ -150,7 +153,8 @@ def export_positioning() -> dict:
     trades = summary[summary["situation"] != "not crowded"]
     return {
         "meta": meta("When hedge funds crowd one side, does the price reverse?",
-                     "CFTC Commitments of Traders; NYMEX futures", "2010 to today", False),
+                     "Commodity Futures Trading Commission (CFTC) Commitments of Traders report; NYMEX futures",
+                     "2010 to today", False),
         "headline": {"min_p_value": clean(trades["p_value"].min(), 2), "max_p_value": clean(trades["p_value"].max(), 2)},
         "summary": records(summary),
         "net_position": columns(cot.assign(net_pct=cot["mm_net_pct_oi"] * 100)[["report_date", "net_pct"]], 2),
@@ -194,7 +198,7 @@ def export_credit() -> dict:
     util = hist.pivot(index="date", columns="name", values="utilization").reset_index()
     d = default.iloc[0]
     return {
-        "meta": meta("Who owes us money, and when is it dangerous?", "Simulated book and counterparties, real prices",
+        "meta": meta("Who owes the desk money, and when is it dangerous?", "Simulated book and counterparties, real prices",
                      f"{hist['date'].min():%Y-%m-%d} to {hist['date'].max():%Y-%m-%d}", True,
                      "NAESB terms: paid on the 25th of the following month. Amber 75%, red 100% of limit."),
         "headline": {
@@ -234,7 +238,7 @@ def export_matching() -> dict:
     exc = read("matching_exceptions.csv")
     planted = score[~score["error"].str.startswith("false")]
     return {
-        "meta": meta("Did we book every trade right?", "Simulated confirmations with planted errors", "Whole book",
+        "meta": meta("Did the desk book every trade right?", "Simulated confirmations with planted errors", "Whole book",
                      True, "No shared trade ID: trades and confirmations are paired by their details."),
         "headline": {"planted": int(planted["planted"].sum()),
                      "raised": int((planted["found"] + planted["found_on_identical_twin"]).sum()),
@@ -263,7 +267,7 @@ def export_storm_watch() -> dict:
         "with no spike (false alarms)": "false_alarms",
     }
     return {
-        "meta": meta("Storm Watch: can weather warn us before a spike?", "Open-Meteo forecasts and observed weather",
+        "meta": meta("Storm Watch: can weather warn a desk before a spike?", "Open-Meteo forecasts and observed weather",
                      "2010 to today (archived forecasts from January 2024)", False,
                      "Alert rules fixed in advance. Looks 7 days ahead because prices move before the cold arrives."),
         "headline": {keys[k]: int(v) for k, v in s.items()},
@@ -277,7 +281,7 @@ def export_context() -> dict:
     events = pd.read_csv(DATA_REFERENCE / "lng_events.csv")
     use = pd.read_csv(DATA_REFERENCE / "gas_consumption_by_sector_2025.csv")
     return {
-        "meta": meta("Market context", "EIA liquefaction capacity (2026 Q2), EIA Today in Energy, news sources",
+        "meta": meta("Market context", "EIA U.S. liquefaction capacity (2026 Q2) and Today in Energy; linked news sources",
                      "2025-2026", False),
         "lng_terminals": records(terminals.drop(columns=["source_url"])),
         "lng_events": records(events),
