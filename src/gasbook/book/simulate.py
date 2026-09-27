@@ -43,12 +43,23 @@ COUNTERPARTIES = pd.DataFrame([
     ("CP07", "LNG Feedgas Buyer G", "lng_feedgas", "BB+", 6_000_000, "commissioning"),
     ("CP08", "Regional Marketer H", "marketer", "BB-", 3_000_000, "active"),
 ], columns=["counterparty_id", "name", "type", "credit_rating", "credit_limit_usd", "status"])
+# How many days after the 25th each counterparty usually pays (simulated payment behaviour)
+COUNTERPARTIES["payment_delay_days"] = COUNTERPARTIES["counterparty_id"].map({"CP04": 3, "CP07": 10, "CP08": 6}).fillna(0).astype(int)
+# Simulated default: Haynesville Producer B stops delivering on the day Henry Hub spot hit $30.72 (Winter Storm Fern)
+COUNTERPARTIES["default_date"] = pd.NaT
+COUNTERPARTIES.loc[COUNTERPARTIES["counterparty_id"] == "CP02", "default_date"] = pd.Timestamp("2026-01-23")
 COUNTERPARTIES["contract"] = "NAESB Base Contract (2006)"
 COUNTERPARTIES["payment_terms"] = "25th of month following delivery"
 
 # Who we usually buy from vs sell to
 BUY_FROM = ["CP01", "CP02", "CP08"]
 SELL_TO = ["CP03", "CP04", "CP05", "CP06", "CP07", "CP08"]
+
+
+def active_counterparties(ids: list[str], trade_date: pd.Timestamp) -> list[str]:
+    """Counterparties we can still trade with on this date (no new deals with a defaulted counterparty)."""
+    defaults = COUNTERPARTIES.set_index("counterparty_id")["default_date"]
+    return [c for c in ids if pd.isna(defaults[c]) or trade_date < defaults[c]]
 
 
 def front_delivery_month(trade_date: pd.Timestamp) -> pd.Timestamp:
@@ -82,7 +93,7 @@ def generate_trades(futures: pd.DataFrame, seed: int = SEED, start: str = START,
                 if abs(current + (volume if buy else -volume)) > POSITION_LIMIT:
                     buy = not buy  # hedge instead of adding to the open position
                 net_fixed[delivery_start] = current + (volume if buy else -volume)
-            cp = rng.choice(BUY_FROM if buy else SELL_TO)
+            cp = rng.choice(active_counterparties(BUY_FROM if buy else SELL_TO, trade_date))
             margin = -DEALER_MARGIN if buy else DEALER_MARGIN
             rows.append({
                 "trade_date": trade_date,

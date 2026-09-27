@@ -22,6 +22,8 @@ CREATE TABLE counterparties (
     credit_limit_usd    NUMERIC(14, 2) NOT NULL CHECK (credit_limit_usd >= 0),
     contract            TEXT NOT NULL,            -- e.g. NAESB Base Contract (2006)
     payment_terms       TEXT NOT NULL,
+    payment_delay_days  INTEGER NOT NULL DEFAULT 0 CHECK (payment_delay_days >= 0),  -- days late after the 25th
+    default_date        DATE,                     -- simulated default, NULL if none
     status              TEXT NOT NULL             -- active, commissioning, disputed
 );
 

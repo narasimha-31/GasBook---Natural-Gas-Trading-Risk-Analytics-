@@ -86,3 +86,12 @@ def test_fixed_position_stays_within_limit():
     fixed["qty"] = fixed["volume_mmbtu_per_day"].where(fixed["buy_sell"] == "buy", -fixed["volume_mmbtu_per_day"])
     running = fixed.groupby("delivery_start")["qty"].cumsum()  # position after each trade, in trade order
     assert running.abs().max() <= simulate.POSITION_LIMIT
+
+
+def test_no_new_trades_with_a_defaulted_counterparty():
+    days = pd.bdate_range("2025-10-01", "2026-06-30")
+    t = simulate.generate_trades(pd.DataFrame({"date": days, "close": 3.0}), start="2025-10-01", end="2026-06-30")
+    defaults = simulate.COUNTERPARTIES.set_index("counterparty_id")["default_date"].dropna()
+    for cid, when in defaults.items():
+        assert not ((t["counterparty_id"] == cid) & (t["trade_date"] >= when)).any()
+        assert ((t["counterparty_id"] == cid) & (t["trade_date"] < when)).any()

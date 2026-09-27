@@ -1,0 +1,2 @@
+counterparty_id,default_date,unpaid_sales,unpaid_purchases,future_value,net_settlement,loss,loss_without_setoff,name,credit_limit,open_deals,open_volume_mmbtu,spot_on_default_date,exposure_day_before,utilization_day_before,loss_vs_limit
+CP02,2026-01-23,0.0,16592550.0,13950870.0,-2641680.0,0.0,13950870.0,Haynesville Producer B,5000000.0,19,3925000,30.72,0.0,0.0,0.0

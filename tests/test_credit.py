@@ -70,3 +70,37 @@ def test_alerts_and_commissioning_halves_limit():
     restricted = credit.exposures(book, cps(limit=2_000_000, status="commissioning"), marks(), day).iloc[0]
     assert restricted["effective_limit"] == 1_000_000
     assert restricted["alert"] == "amber"
+
+
+def test_late_payer_stays_owed_past_the_25th():
+    book = pd.DataFrame([trade("sell", "fixed", price=3.0)])
+    late = cps().assign(payment_delay_days=6)
+    on_27th = pd.Timestamp("2026-04-27")
+    assert credit.exposures(book, cps(), marks(), on_27th).iloc[0]["unpaid_sales"] == 0
+    assert credit.exposures(book, late, marks(), on_27th).iloc[0]["unpaid_sales"] == pytest.approx(31 * 10_000 * 3.0)
+    assert credit.exposures(book, late, marks(), pd.Timestamp("2026-05-01")).iloc[0]["unpaid_sales"] == 0
+
+
+def test_we_pay_on_time_even_if_they_pay_late():
+    book = pd.DataFrame([trade("buy", "fixed", price=3.0)])
+    late = cps().assign(payment_delay_days=6)
+    assert credit.exposures(book, late, marks(), pd.Timestamp("2026-04-27")).iloc[0]["unpaid_purchases"] == 0
+
+
+def test_default_nets_what_we_owe_against_replacement_cost():
+    # We bought March gas at $2.50; on Mar 11 spot is $4. Delivered Mar 1-11 unpaid by us; 20 days left to replace.
+    book = pd.DataFrame([trade("buy", "fixed", price=2.5)])
+    d = credit.default_settlement(book, cps(), marks(4.0), "CP01", pd.Timestamp("2026-03-11"))
+    assert d["unpaid_purchases"] == pytest.approx(11 * 10_000 * 2.5)
+    assert d["future_value"] == pytest.approx(20 * 10_000 * (4.0 - 2.5))
+    assert d["loss"] == pytest.approx(max(0.0, 20 * 10_000 * 1.5 - 11 * 10_000 * 2.5))
+    assert d["loss_without_setoff"] == pytest.approx(20 * 10_000 * 1.5)
+
+
+def test_defaulted_counterparty_is_frozen_and_flagged():
+    book = pd.DataFrame([trade("buy", "fixed", price=2.5)])
+    gone = cps().assign(default_date=pd.Timestamp("2026-02-10"))
+    later = credit.exposures(book, gone, marks(), pd.Timestamp("2026-04-01")).iloc[0]
+    at_default = credit.default_settlement(book, gone, marks(), "CP01", pd.Timestamp("2026-02-10"))
+    assert later["alert"] == "defaulted"
+    assert later["exposure"] == pytest.approx(at_default["loss"])

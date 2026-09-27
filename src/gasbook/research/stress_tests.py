@@ -32,7 +32,8 @@ def full_history() -> tuple[pd.Series, pd.Series]:
 if __name__ == "__main__":
     engine = create_engine(connection_url())
     trades, marks = pnl.load_from_database(engine)
-    cps = pd.read_sql("SELECT counterparty_id, name, status, credit_limit_usd FROM counterparties", engine)
+    cps = pd.read_sql("SELECT counterparty_id, name, status, credit_limit_usd, payment_delay_days, default_date "
+                      "FROM counterparties", engine, parse_dates=["default_date"])
     cps["credit_limit_usd"] = cps["credit_limit_usd"].astype(float)
 
     today = min(marks.futures.index.max(), marks.spot_daily.index.max())

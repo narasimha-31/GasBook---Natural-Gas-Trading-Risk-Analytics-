@@ -1,41 +1,41 @@
 storm,name,base_utilization,peak_utilization,peak_day,peak_exposure,effective_limit,alert
 Winter Storm Uri (Feb 2021),Gulf Coast Utility C,0.345,0.3586,2026-09-24,5379067.5954,15000000.0,green
-Winter Storm Uri (Feb 2021),Haynesville Producer B,0.0,1.4176,2026-10-01,7087842.9799,5000000.0,red
+Winter Storm Uri (Feb 2021),Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,defaulted
 Winter Storm Uri (Feb 2021),LNG Feedgas Buyer F,0.1201,0.2469,2026-10-23,4937098.6246,20000000.0,green
-Winter Storm Uri (Feb 2021),LNG Feedgas Buyer G,1.5985,1.6555,2026-09-24,4966417.6797,3000000.0,red
-Winter Storm Uri (Feb 2021),Permian Producer A,0.0,3.7523,2026-10-01,30018097.6361,8000000.0,red
+Winter Storm Uri (Feb 2021),LNG Feedgas Buyer G,1.5985,1.771,2026-09-30,5313078.0389,3000000.0,red
+Winter Storm Uri (Feb 2021),Permian Producer A,0.0,3.9125,2026-10-01,31299895.1576,8000000.0,red
 Winter Storm Uri (Feb 2021),Petrochemical Plant E,0.4185,0.4416,2026-09-24,5298616.3508,12000000.0,green
-Winter Storm Uri (Feb 2021),Regional Marketer H,0.0,0.7047,2026-11-02,2113985.3582,3000000.0,green
-Winter Storm Uri (Feb 2021),Texas Power Generator D,0.8479,0.8683,2026-09-24,8683089.6169,10000000.0,amber
+Winter Storm Uri (Feb 2021),Regional Marketer H,0.0,1.0013,2026-11-25,3003995.3582,3000000.0,red
+Winter Storm Uri (Feb 2021),Texas Power Generator D,0.8479,0.8687,2026-09-25,8687139.0263,10000000.0,amber
 Winter Storm Elliott (Dec 2022),Gulf Coast Utility C,0.345,0.3822,2026-09-24,5733040.7474,15000000.0,green
-Winter Storm Elliott (Dec 2022),Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,green
+Winter Storm Elliott (Dec 2022),Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,defaulted
 Winter Storm Elliott (Dec 2022),LNG Feedgas Buyer F,0.1201,0.2267,2026-10-23,4533020.0452,20000000.0,green
-Winter Storm Elliott (Dec 2022),LNG Feedgas Buyer G,1.5985,1.8312,2026-09-24,5493625.0416,3000000.0,red
+Winter Storm Elliott (Dec 2022),LNG Feedgas Buyer G,1.5985,2.1841,2026-10-02,6552293.009,3000000.0,red
 Winter Storm Elliott (Dec 2022),Permian Producer A,0.0,0.0,2026-09-23,0.0,8000000.0,green
 Winter Storm Elliott (Dec 2022),Petrochemical Plant E,0.4185,0.4555,2026-09-24,5465843.2782,12000000.0,green
-Winter Storm Elliott (Dec 2022),Regional Marketer H,0.0,0.3313,2026-11-02,993979.5324,3000000.0,green
-Winter Storm Elliott (Dec 2022),Texas Power Generator D,0.8479,0.907,2026-09-24,9070459.0447,10000000.0,amber
+Winter Storm Elliott (Dec 2022),Regional Marketer H,0.0,0.628,2026-11-25,1883989.5324,3000000.0,green
+Winter Storm Elliott (Dec 2022),Texas Power Generator D,0.8479,0.9105,2026-09-25,9104611.5134,10000000.0,amber
 Jan 2024 arctic blast,Gulf Coast Utility C,0.345,0.3479,2026-09-23,5218438.2442,15000000.0,green
-Jan 2024 arctic blast,Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,green
+Jan 2024 arctic blast,Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,defaulted
 Jan 2024 arctic blast,LNG Feedgas Buyer F,0.1201,0.2359,2026-10-23,4718170.9091,20000000.0,green
-Jan 2024 arctic blast,LNG Feedgas Buyer G,1.5985,1.5966,2026-09-23,4789711.7538,3000000.0,red
+Jan 2024 arctic blast,LNG Feedgas Buyer G,1.5985,1.8228,2026-10-02,5468473.1818,3000000.0,red
 Jan 2024 arctic blast,Permian Producer A,0.0,0.0,2026-09-23,0.0,8000000.0,green
 Jan 2024 arctic blast,Petrochemical Plant E,0.4185,0.4301,2026-09-24,5161039.5835,12000000.0,green
-Jan 2024 arctic blast,Regional Marketer H,0.0,0.5481,2026-11-02,1644151.8182,3000000.0,green
-Jan 2024 arctic blast,Texas Power Generator D,0.8479,0.8515,2026-09-23,8514892.7011,10000000.0,amber
+Jan 2024 arctic blast,Regional Marketer H,0.0,0.8447,2026-11-25,2534161.8182,3000000.0,amber
+Jan 2024 arctic blast,Texas Power Generator D,0.8479,0.8605,2026-09-25,8604791.3903,10000000.0,amber
 Jan 2025 cold snap,Gulf Coast Utility C,0.345,0.3561,2026-09-24,5341944.6589,15000000.0,green
-Jan 2025 cold snap,Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,green
+Jan 2025 cold snap,Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,defaulted
 Jan 2025 cold snap,LNG Feedgas Buyer F,0.1201,0.2318,2026-10-23,4635762.2034,20000000.0,green
-Jan 2025 cold snap,LNG Feedgas Buyer G,1.5985,1.6404,2026-09-24,4921288.5188,3000000.0,red
+Jan 2025 cold snap,LNG Feedgas Buyer G,1.5985,1.8989,2026-10-02,5696785.1453,3000000.0,red
 Jan 2025 cold snap,Permian Producer A,0.0,0.0,2026-09-23,0.0,8000000.0,green
 Jan 2025 cold snap,Petrochemical Plant E,0.4185,0.4399,2026-09-24,5278387.0339,12000000.0,green
-Jan 2025 cold snap,Regional Marketer H,0.0,0.472,2026-11-02,1415898.1356,3000000.0,green
-Jan 2025 cold snap,Texas Power Generator D,0.8479,0.865,2026-09-24,8649960.5951,10000000.0,amber
+Jan 2025 cold snap,Regional Marketer H,0.0,0.7686,2026-11-25,2305908.1356,3000000.0,amber
+Jan 2025 cold snap,Texas Power Generator D,0.8479,0.868,2026-09-25,8679750.5405,10000000.0,amber
 Winter Storm Fern (Jan 2026),Gulf Coast Utility C,0.345,0.3141,2026-09-23,4711665.2948,15000000.0,green
-Winter Storm Fern (Jan 2026),Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,green
+Winter Storm Fern (Jan 2026),Haynesville Producer B,0.0,0.0,2026-09-23,0.0,5000000.0,defaulted
 Winter Storm Fern (Jan 2026),LNG Feedgas Buyer F,0.1201,0.2835,2026-10-23,5669954.183,20000000.0,green
-Winter Storm Fern (Jan 2026),LNG Feedgas Buyer G,1.5985,1.4516,2026-10-23,4354765.2614,3000000.0,red
-Winter Storm Fern (Jan 2026),Permian Producer A,0.0,0.729,2026-10-02,5832090.0327,8000000.0,green
+Winter Storm Fern (Jan 2026),LNG Feedgas Buyer G,1.5985,1.8381,2026-11-02,5514386.1765,3000000.0,red
+Winter Storm Fern (Jan 2026),Permian Producer A,0.0,0.6531,2026-10-02,5224610.4248,8000000.0,green
 Winter Storm Fern (Jan 2026),Petrochemical Plant E,0.4185,0.5237,2026-10-23,6284395.0163,12000000.0,green
-Winter Storm Fern (Jan 2026),Regional Marketer H,0.0,1.0617,2026-11-02,3185119.8039,3000000.0,red
-Winter Storm Fern (Jan 2026),Texas Power Generator D,0.8479,0.8525,2026-10-23,8525201.1438,10000000.0,amber
+Winter Storm Fern (Jan 2026),Regional Marketer H,0.0,1.3584,2026-11-25,4075129.8039,3000000.0,red
+Winter Storm Fern (Jan 2026),Texas Power Generator D,0.8479,0.9395,2026-10-27,9394916.8301,10000000.0,amber
