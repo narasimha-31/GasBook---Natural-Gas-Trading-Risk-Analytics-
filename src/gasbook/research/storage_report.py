@@ -1,7 +1,7 @@
 """Does Thursday's EIA storage report move the gas price?
 
 Every Thursday at 10:30 ET, EIA reports how much gas went into (or out of) storage in the week ending the
-previous Friday. We compare that change with what is normal for that time of year:
+previous Friday. The study compares that change with what is normal for that time of year:
 
     vs_normal_bcf = this week's storage change - average change for the same week over the previous 5 years
 
@@ -11,15 +11,27 @@ Positive = more gas than normal (bearish, price should fall). Negative = less ga
 
 A simple stand-in for what traders expect: that the gap from normal stays about where it was last week.
 
+    model_surprise_bcf = this week's storage change - the storage model's forecast for it
+
+A better stand-in: the model reads the same weather traders watch. Forecasts come from the walk-forward
+backtest (each year predicted by a model trained only on earlier years), so none of them saw the week
+they predict. 2016-2021 also chose the model settings, so those years are slightly flattering.
+
 Limitation: traders compare the report with analyst forecasts (Reuters/Bloomberg polls), which are not free.
-They already expect some difference from normal (they watch the weather), so our measure understates
-how much the report really moves prices.
+They already expect some difference from normal, so the simple measures understate how much the report
+really moves prices; the model surprise gets closer but is still not the market's own expectation.
+
+Result (489 reports, 2016 onward): prices fall about 0.27% per 10 Bcf more gas than the model expected
+(t = -2.9), roughly five times the simple measure. Split by period, nearly all of it comes from 2016-2021;
+from 2022 on the slope is -0.11% and not distinguishable from zero. 2022 onward had much bigger daily price
+swings, which hide a small effect, and weekly analyst polls may simply have got better.
 
 Price move = NYMEX front-month futures close on report day vs the day before. Reports landing on a contract
 roll (expiry day or the day after) are excluded because NG=F jumps when it switches contracts.
 Holiday weeks (report moved to Wednesday/Friday) are mapped to the first trading day on/after Thursday.
 
 Run: python -m gasbook.research.storage_report
+     (model surprise needs python -m gasbook.research.storage_model first; skipped if missing)
 Outputs: reports/storage_report_*.csv, reports/storage_report.png
 """
 
@@ -62,12 +74,19 @@ def five_year_average_change(storage: pd.DataFrame, tolerance_days: int = 3) -> 
     return storage["week_ending"].map(avg)
 
 
-def build_weeks(storage: pd.DataFrame, futures: pd.DataFrame) -> pd.DataFrame:
-    """One row per storage report with the change vs normal and the price moves around it."""
+def build_weeks(storage: pd.DataFrame, futures: pd.DataFrame, model: pd.DataFrame | None = None) -> pd.DataFrame:
+    """One row per storage report with the change vs normal and the price moves around it.
+
+    `model` (optional): week_ending plus the model's forecast in a "blend" column.
+    """
     s = storage.copy()
     s["normal_change_bcf"] = five_year_average_change(s)
     s["vs_normal_bcf"] = s["weekly_change_bcf"] - s["normal_change_bcf"]
     s["gap_change_bcf"] = s["vs_normal_bcf"].diff()
+    if model is not None:
+        forecast = model.set_index(pd.to_datetime(model["week_ending"]))["blend"]
+        s["model_forecast_bcf"] = s["week_ending"].map(forecast)
+        s["model_surprise_bcf"] = s["weekly_change_bcf"] - s["model_forecast_bcf"]
     s["report_target"] = s["week_ending"] + pd.Timedelta(days=6)  # Thursday after week ending
 
     f = futures.sort_values("date").reset_index(drop=True)
@@ -143,16 +162,37 @@ def plot(weeks: pd.DataFrame, groups: pd.DataFrame, path) -> None:
 if __name__ == "__main__":
     storage = pd.read_csv(DATA_RAW / "storage_weekly.csv", parse_dates=["week_ending"])
     futures = pd.read_csv(DATA_RAW / "ng_front_month.csv", parse_dates=["date"])
-    weeks = build_weeks(storage, futures)
+    model_file = REPORTS / "storage_model_walkforward.csv"
+    model = pd.read_csv(model_file, parse_dates=["week_ending"]) if model_file.exists() else None
+    weeks = build_weeks(storage, futures, model)
     day = weeks[~weeks["roll_on_report_day"]]
     week = weeks[~weeks["roll_on_report_day"] & ~weeks["roll_in_next_week"]]
 
-    results = pd.DataFrame([
+    rows = [
         regress(day, "move_report_day", "vs_normal_bcf"),
         regress(day, "move_report_day", "gap_change_bcf"),
         regress(week, "move_next_week", "gap_change_bcf"),
-    ])
+    ]
+    if model is not None:
+        # Same weeks for every measure, so the comparison is fair
+        both = day.dropna(subset=["model_surprise_bcf", "gap_change_bcf"])
+        both_week = week.dropna(subset=["model_surprise_bcf", "gap_change_bcf"])
+        rows += [
+            {**regress(both, "move_report_day", "vs_normal_bcf"), "sample": "model weeks"},
+            {**regress(both, "move_report_day", "gap_change_bcf"), "sample": "model weeks"},
+            {**regress(both, "move_report_day", "model_surprise_bcf"), "sample": "model weeks"},
+            {**regress(both_week, "move_next_week", "model_surprise_bcf"), "sample": "model weeks"},
+        ]
+        for label, part in [("2016-2021", both[both["week_ending"] < "2022-01-01"]),
+                            ("2022 onward", both[both["week_ending"] >= "2022-01-01"])]:
+            rows += [{**regress(part, "move_report_day", x), "sample": label}
+                     for x in ("gap_change_bcf", "model_surprise_bcf")]
+    results = pd.DataFrame(rows)
+    results["sample"] = results.get("sample", pd.Series(dtype=object)).fillna("all weeks")
     groups = by_group(day)
+    if model is not None:
+        model_groups = by_group(day, "model_surprise_bcf")
+        model_groups.round(4).to_csv(REPORTS / "storage_report_by_model_surprise.csv")
 
     REPORTS.mkdir(exist_ok=True)
     weeks.to_csv(REPORTS / "storage_report_weeks.csv", index=False)
@@ -166,3 +206,6 @@ if __name__ == "__main__":
     print(results.round(4).to_string(index=False))
     print()
     print(groups.round(3).to_string())
+    if model is not None:
+        print("\nGrouped by model surprise:")
+        print(model_groups.round(3).to_string())

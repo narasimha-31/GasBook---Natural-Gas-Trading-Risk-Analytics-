@@ -58,3 +58,13 @@ def test_expiry_is_three_business_days_before_month_start():
 def test_near_expiry_flags_window():
     dates = pd.Series(pd.to_datetime(["2026-02-25", "2026-02-26", "2026-02-27"]))
     assert near_expiry(dates).tolist() == [True, True, False]
+
+
+def test_model_surprise_is_actual_minus_forecast():
+    s = storage_frame()
+    days = pd.bdate_range("2014-12-01", "2022-03-01")
+    fut = pd.DataFrame({"date": days, "close": np.exp(np.arange(len(days)) * 0.001)})
+    model = pd.DataFrame({"week_ending": s["week_ending"], "blend": 4.0})
+    ev = sr.build_weeks(s, fut, model)
+    assert ev["model_surprise_bcf"].eq(6.0).all()  # every actual change is 10, every forecast 4
+    assert "model_surprise_bcf" not in sr.build_weeks(s, fut).columns

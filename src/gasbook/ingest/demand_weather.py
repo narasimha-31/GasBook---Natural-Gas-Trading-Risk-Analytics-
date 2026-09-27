@@ -63,13 +63,14 @@ def observed(start: str, end: str, session: requests.Session | None = None) -> p
     return pd.concat(frames, ignore_index=True)
 
 
-def forecast(days: int = 16, session: requests.Session | None = None) -> pd.DataFrame:
+def forecast(days: int = 16, past_days: int = 0, session: requests.Session | None = None) -> pd.DataFrame:
+    """Next `days` days, plus the last `past_days` days (recent days the archive has not caught up on yet)."""
     session = session or requests.Session()
     frames = []
     for city, (lat, lon, _) in CITIES.items():
         r = session.get("https://api.open-meteo.com/v1/forecast", timeout=60,
                         params={"latitude": lat, "longitude": lon, "daily": "temperature_2m_mean",
-                                "forecast_days": days, **UNITS})
+                                "forecast_days": days, "past_days": past_days, **UNITS})
         r.raise_for_status()
         frames.append(_frame(r.json(), city))
     return pd.concat(frames, ignore_index=True)
@@ -80,7 +81,7 @@ if __name__ == "__main__":
     end = (pd.Timestamp.today() - pd.Timedelta(days=6)).strftime("%Y-%m-%d")  # archive lags by a few days
     obs = observed("2009-06-01", end)
     obs.to_csv(DATA_RAW / "weather_demand_observed.csv", index=False)
-    fc = forecast()
+    fc = forecast(past_days=10)
     fc.to_csv(DATA_RAW / "weather_demand_forecast.csv", index=False)
     print(f"observed: {len(obs):,} rows ({obs['date'].min().date()} -> {obs['date'].max().date()}), "
           f"forecast: {len(fc)} rows")
