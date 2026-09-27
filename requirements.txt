@@ -3,6 +3,7 @@ pandas>=2.2
 numpy>=1.26
 scipy>=1.13
 statsmodels>=0.14
+scikit-learn>=1.5
 
 # Data ingest (FRED, EIA, CFTC, Open-Meteo, futures)
 requests>=2.32

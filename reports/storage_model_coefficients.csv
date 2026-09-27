@@ -1,0 +1,25 @@
+feature,bcf_per_unit
+hdd_East,-0.4133
+hdd_Midwest,-0.3744
+hdd_South Central,-0.6131
+hdd_Mountain,0.0075
+hdd_Pacific,-0.1959
+cdd_East,-0.2085
+cdd_Midwest,-0.2655
+cdd_South Central,-0.3141
+cdd_Mountain,0.0498
+cdd_Pacific,-0.0779
+storage_prev_bcf,-0.0233
+change_prev_bcf,0.1215
+lng_exports_bcfd,0.411
+season_sin1,-10.9586
+season_cos1,10.1356
+season_sin2,-10.9694
+season_cos2,-1.7615
+years_since_2010,-6.1796
+cdd_south_x_years,0.0083
+cdd_east_x_years,-0.0199
+thanksgiving_week,19.8163
+christmas_week,32.815
+new_year_week,23.7809
+production_bcfd,1.4958
