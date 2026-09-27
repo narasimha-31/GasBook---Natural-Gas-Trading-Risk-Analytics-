@@ -104,3 +104,12 @@ body {
 strong.num {
   white-space: nowrap;
 }
+
+/* Chapter links scroll sideways on phones: fade the edges instead of cutting words off */
+@media (max-width: 767px) {
+  header nav {
+    mask-image: linear-gradient(to right, transparent 0, black 18px, black calc(100% - 18px), transparent 100%);
+    padding-inline: 18px;
+    scroll-padding-inline: 18px;
+  }
+}
