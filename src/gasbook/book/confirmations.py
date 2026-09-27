@@ -35,7 +35,7 @@ def generate(trades: pd.DataFrame, counterparty_ids: list[str], seed: int = SEED
     rng = np.random.default_rng(seed)
     confirms, key = [], []
     n = len(trades)
-    broken = set(rng.choice(n, size=int(round(n * ERROR_SHARE)), replace=False))
+    broken = set(rng.choice(n, size=round(n * ERROR_SHARE), replace=False))
 
     for i, t in enumerate(trades.itertuples(index=False)):
         c = {
@@ -72,7 +72,7 @@ def generate(trades: pd.DataFrame, counterparty_ids: list[str], seed: int = SEED
         confirms.append(c)
 
     # Trades the counterparty has but we never booked
-    for _ in range(int(round(n * UNKNOWN_SHARE))):
+    for _ in range(round(n * UNKNOWN_SHARE)):
         t = trades.iloc[int(rng.integers(0, n))]
         c = {
             "counterparty_id": str(rng.choice(counterparty_ids)),

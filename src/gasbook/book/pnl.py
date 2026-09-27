@@ -73,7 +73,7 @@ def trade_values(trades: pd.DataFrame, marks: Marks, day: pd.Timestamp) -> pd.Da
 
 def daily_pnl(trades: pd.DataFrame, marks: Marks, days: pd.DatetimeIndex) -> pd.DataFrame:
     """Total MTM per day and the P&L explain. `days` must be consecutive business days."""
-    out, prev = [], None
+    out, prev, prev_day = [], None, None
     for day in days:
         vals = trade_values(trades, marks, day)
         total = vals["value"].sum()

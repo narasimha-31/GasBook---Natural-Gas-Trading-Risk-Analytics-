@@ -120,8 +120,8 @@ def backtest(loss: pd.Series, var: pd.Series, level: float) -> dict:
     """Compare realized losses to VaR forecasts on the days where a forecast exists."""
     df = pd.concat({"loss": loss, "var": var}, axis=1).dropna()
     breach = df["loss"] > df["var"]
-    kup_lr, kup_p = kupiec_pof(breach, level)
-    ind_lr, ind_p = christoffersen_independence(breach)
+    _, kup_p = kupiec_pof(breach, level)
+    _, ind_p = christoffersen_independence(breach)
     excess = (df["loss"] - df["var"])[breach]
     return {
         "days": len(df),
