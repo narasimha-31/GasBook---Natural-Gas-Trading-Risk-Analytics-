@@ -20,6 +20,10 @@ HENRY_HUB_SERIES = "RNGWHHD"
 STORAGE_ROUTE = "natural-gas/stor/wkly"
 STORAGE_SERIES = "NW2_EPG0_SWO_R48_BCF"
 
+# Monthly US LNG exports, million cubic feet (published about two months after the month ends)
+LNG_EXPORTS_ROUTE = "natural-gas/move/expc"
+LNG_EXPORTS_SERIES = "N9133US2"
+
 # Monthly citygate prices, $/Mcf (thousand cubic feet, NOT $/MMBtu; 1 Mcf is roughly 1.037 MMBtu)
 CITYGATE_ROUTE = "natural-gas/pri/sum"
 CITYGATE_SERIES = {"US": "N3050US3", "TX": "N3050TX3", "LA": "N3050LA3"}
@@ -106,6 +110,13 @@ def fetch_citygate_monthly(start: str = "1989-01", **kwargs) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)[["month", "region", "price_per_mcf"]]
 
 
+def fetch_lng_exports_monthly(start: str = "2009-01", **kwargs) -> pd.DataFrame:
+    """US LNG exports per month, as an average Bcf per day: [month, lng_exports_bcfd]."""
+    df = fetch_series(LNG_EXPORTS_ROUTE, LNG_EXPORTS_SERIES, "monthly", start=start, **kwargs)
+    days = df["period"].dt.days_in_month
+    return pd.DataFrame({"month": df["period"], "lng_exports_bcfd": df["value"] / days / 1000})
+
+
 def save_raw(df: pd.DataFrame, name: str) -> str:
     """Cache an API pull to data/raw/<name>.csv so reruns don't hit the API."""
     DATA_RAW.mkdir(parents=True, exist_ok=True)
@@ -119,6 +130,7 @@ if __name__ == "__main__":
         "henry_hub_daily": (fetch_henry_hub_daily, "date"),
         "storage_weekly": (fetch_storage_weekly, "week_ending"),
         "citygate_monthly": (fetch_citygate_monthly, "month"),
+        "lng_exports_monthly": (fetch_lng_exports_monthly, "month"),
     }
     for name, (fetch, date_col) in pulls.items():
         df = fetch()

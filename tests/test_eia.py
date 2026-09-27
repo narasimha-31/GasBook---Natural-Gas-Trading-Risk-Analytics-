@@ -98,3 +98,10 @@ def test_citygate_returns_one_block_per_region():
     assert requested == list(eia.CITYGATE_SERIES.values())
     assert sorted(df["region"]) == sorted(eia.CITYGATE_SERIES)
     assert list(df.columns) == ["month", "region", "price_per_mcf"]
+
+
+def test_lng_exports_are_converted_to_bcf_per_day():
+    session = FakeSession([page([{"period": "2026-01", "value": "527000"}, {"period": "2026-02", "value": "476000"}], 2)])
+    df = eia.fetch_lng_exports_monthly(session=session, api_key="test")
+    assert session.calls[0]["facets[series][]"] == "N9133US2"
+    assert df["lng_exports_bcfd"].round(3).tolist() == [17.0, 17.0]  # 527,000 MMcf / 31 days; 476,000 / 28
