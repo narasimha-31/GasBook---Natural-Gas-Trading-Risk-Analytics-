@@ -6,7 +6,7 @@ import { Badge } from "./Badge";
 
 interface Props {
   id: string;
-  number: number;
+  number: number | string;
   accent: string;
   question: string;
   meta?: Meta;

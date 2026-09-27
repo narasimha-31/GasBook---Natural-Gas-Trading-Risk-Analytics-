@@ -80,9 +80,11 @@ export function Weather() {
       yAxis: { type: "value", min: 0, ...valueAxisBase, axisLabel: { ...valueAxisBase.axisLabel, formatter: "{value}°" } },
       series: [
         { name: "Midland, Permian gas fields", type: "line", symbol: "none", lineStyle: line("#b85a17"),
+          itemStyle: { color: "#b85a17" },
           data: f.map((d) => d.midland_low_f),
           markLine: { symbol: "none", silent: true, data: [threshold(10, "Midland warning 10°F", "#b0352a")] } },
         { name: "Houston", type: "line", symbol: "none", lineStyle: line("#2f5d8c"),
+          itemStyle: { color: "#2f5d8c" },
           data: f.map((d) => d.houston_low_f),
           markLine: { symbol: "none", silent: true, data: [threshold(25, "Houston warning 25°F", "#b0352a")] } },
       ],

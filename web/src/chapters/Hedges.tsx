@@ -74,7 +74,7 @@ export function Hedges() {
         markLine: {
           symbol: "none",
           lineStyle: { color: INK_SOFT, type: "dashed" },
-          label: { formatter: "80% = works", position: "end", fontFamily: MONO, fontSize: 10, color: INK_SOFT },
+          label: { formatter: "80% = works", position: "start", fontFamily: MONO, fontSize: 10, color: INK_SOFT },
           data: [{ xAxis: 80 }],
         },
       }],

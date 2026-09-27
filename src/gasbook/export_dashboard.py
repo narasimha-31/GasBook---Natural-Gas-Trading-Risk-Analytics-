@@ -209,7 +209,7 @@ def export_credit() -> dict:
         },
         "utilization": columns(util, 3),
         "breaches": records(breaches),
-        "default": records(default, 0),
+        "default": records(default, 2),
     }
 
 

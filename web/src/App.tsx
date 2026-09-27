@@ -1,4 +1,5 @@
 import { Header } from "./components/Header";
+import { Desk } from "./chapters/Desk";
 import { Intro } from "./chapters/Intro";
 import { Hedges } from "./chapters/Hedges";
 import { Prices } from "./chapters/Prices";
@@ -17,6 +18,7 @@ export default function App() {
         <Hedges />
         <Signals />
         <Weather />
+        <Desk />
       </main>
       <footer className="mx-auto max-w-6xl border-t border-rule px-4 py-10 text-sm text-ink-faint sm:px-6">
         GasBook · Real prices from EIA, CFTC, NYMEX and Open-Meteo. Trades, counterparties and confirmations are
