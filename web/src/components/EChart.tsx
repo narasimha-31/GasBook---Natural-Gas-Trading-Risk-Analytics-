@@ -23,7 +23,7 @@ export type Option = echarts.EChartsCoreOption;
 export const INK = "#1d2733";
 export const INK_SOFT = "#465261";
 export const INK_FAINT = "#7d858f";
-export const RULE = "#d6cdb9";
+export const RULE = "#dcd8ce";
 export const MONO = "IBM Plex Mono, ui-monospace, monospace";
 
 export const axisBase = {
@@ -41,7 +41,7 @@ export const valueAxisBase = {
 
 export const tooltipBase = {
   trigger: "axis" as const,
-  backgroundColor: "#fbf8f1",
+  backgroundColor: "#ffffff",
   borderColor: RULE,
   textStyle: { color: INK, fontFamily: MONO, fontSize: 12 },
   axisPointer: { lineStyle: { color: INK_FAINT, type: "dashed" as const } },

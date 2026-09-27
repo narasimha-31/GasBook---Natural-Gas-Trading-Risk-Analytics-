@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  Printed desk report: serif prose on paper, trading-screen monospace for every number and label.
+  Research-report look: serif prose on a quiet off-white page, monospace for figures.
   Colors are muted and each has one job:
   - one accent per chapter, so readers always know where they are
   - good / watch / act only for status, never decoration
@@ -10,12 +10,12 @@
   --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  --color-paper: #f4efe4;
-  --color-paper-deep: #ebe4d4;
+  --color-paper: #faf9f6;
+  --color-paper-deep: #f1efe9;
   --color-ink: #1d2733;
   --color-ink-soft: #465261;
   --color-ink-faint: #7d858f;
-  --color-rule: #d6cdb9;
+  --color-rule: #dcd8ce;
 
   --color-market: #2f5d8c;
   --color-risk: #4b4a8f;
@@ -32,13 +32,24 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+}
+
+/*
+  Chapter links: land the chapter's first line 24px below the sticky header (53px tall).
+  Sections have 64px top padding on phones and 80px from 640px up, so the offset is
+  header + 24px - padding.
+*/
+section[id] {
+  scroll-margin-top: calc(53px + 24px - 64px);
+}
+@media (min-width: 640px) {
+  section[id] {
+    scroll-margin-top: calc(53px + 24px - 80px);
+  }
 }
 
 body {
   background-color: var(--color-paper);
-  background-image: radial-gradient(rgb(29 39 51 / 0.04) 1px, transparent 1px);
-  background-size: 3px 3px;
   color: var(--color-ink);
   font-family: var(--font-serif);
   font-size: 18px;
@@ -87,4 +98,9 @@ body {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Keep figures like "1 of 4" or "$26.9M" on one line inside running text */
+strong.num {
+  white-space: nowrap;
 }
