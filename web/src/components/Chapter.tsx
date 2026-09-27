@@ -12,6 +12,8 @@ interface Props {
   meta?: Meta;
   /** One-sentence answer, shown large. */
   answer: ReactNode;
+  /** Margin notes (definitions) shown beside the answer. */
+  notes?: ReactNode;
   children?: ReactNode;
   /** One line on why a desk should care. */
   why?: ReactNode;
@@ -19,54 +21,57 @@ interface Props {
   details?: ReactNode;
 }
 
-/** A chapter = a question, a one-sentence answer, one main visual, and why it matters. */
-export function Chapter({ id, number, accent, question, meta, answer, children, why, details }: Props) {
+/** A chapter: a question, a plain answer, one main visual, and why it matters. */
+export function Chapter({ id, number, accent, question, meta, answer, notes, children, why, details }: Props) {
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
 
   return (
     <motion.section
       id={id}
-      className="border-t border-rule py-14 sm:py-20"
+      className="border-t border-rule py-16 sm:py-20"
       initial={reduce ? false : { opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="mb-5 flex flex-wrap items-center gap-3">
-        <span className="h-5 w-1 rounded-full" style={{ background: accent }} aria-hidden />
-        <span className="num text-sm font-semibold tracking-wide" style={{ color: accent }}>
-          {String(number).padStart(2, "0")}
-        </span>
-        {meta && <Badge simulated={meta.simulated} />}
+      <div className="grid gap-10 md:grid-cols-12 md:gap-12">
+        <div className="md:col-span-8">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-[0.95rem] italic" style={{ color: accent }}>
+              Chapter {number}
+            </p>
+            {meta && <Badge simulated={meta.simulated} />}
+          </div>
+          <h2 className="mt-3 font-serif text-3xl leading-tight font-semibold sm:text-4xl">{question}</h2>
+          <div className="mt-5 text-xl leading-relaxed text-ink-soft">{answer}</div>
+        </div>
+        {notes && <div className="space-y-6 md:col-span-4 md:pt-10">{notes}</div>}
       </div>
-
-      <h2 className="max-w-3xl font-serif text-3xl leading-tight font-semibold sm:text-4xl">{question}</h2>
-      <p className="mt-5 max-w-3xl font-serif text-xl leading-relaxed text-ink-soft sm:text-2xl">{answer}</p>
 
       {children && <div className="mt-10">{children}</div>}
 
       {why && (
-        <p className="mt-8 max-w-3xl border-l-2 pl-4 text-base leading-relaxed" style={{ borderColor: accent }}>
-          <span className="font-semibold">Why it matters: </span>
+        <p className="mt-10 max-w-3xl border-l-2 pl-4 text-lg leading-relaxed" style={{ borderColor: accent }}>
+          <span className="font-semibold">Why it matters. </span>
           {why}
         </p>
       )}
 
-      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-faint">
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.9rem] text-ink-faint">
         {meta && (
           <span>
-            Source: {meta.source} · {meta.period}
+            Source: {meta.source}. {meta.period}.
           </span>
         )}
         {details && (
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="font-medium underline decoration-rule underline-offset-4 hover:text-ink"
+            className="underline decoration-rule underline-offset-4 hover:text-ink"
             aria-expanded={open}
           >
-            {open ? "Hide the details" : "See the details"}
+            {open ? "Hide the details" : "Show the details"}
           </button>
         )}
       </div>

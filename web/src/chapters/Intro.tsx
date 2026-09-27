@@ -14,7 +14,7 @@ interface Prices extends DataFile<{ record_price: number; record_day: string }> 
 const NAMED_PEAKS: Record<string, string> = {
   "2008-07-02": "2008 commodity boom",
   "2021-02-17": "Winter Storm Uri",
-  "2024-01-12": "January 2024 cold snap",
+  "2024-01-12": "Jan 2024 arctic blast",
   "2026-01-23": "Winter Storm Fern",
 };
 
